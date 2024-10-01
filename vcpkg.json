@@ -1,0 +1,37 @@
+{
+  "name" : "dip",
+  "version-string" : "1.0.0",
+  "builtin-baseline" : "76d153790caf0592fce8fc4484aa6db18c7d00d4",
+  "dependencies" : [ {
+    "name" : "glfw3",
+    "version>=" : "3.4#1"
+  }, {
+    "name" : "vcpkg-cmake-config",
+    "version>=" : "2024-05-23"
+  }, {
+    "name" : "vcpkg-cmake",
+    "version>=" : "2024-04-23"
+  }, {
+    "name" : "glbinding",
+    "version>=" : "3.1.0#4"
+  }, {
+    "name" : "opencv4",
+    "version>=" : "4.8.0#22"
+  }, {
+    "name" : "nlohmann-json",
+    "version>=" : "3.11.3#1"
+  }, {
+    "name" : "spdlog",
+    "version>=" : "1.14.1"
+  }, {
+    "name" : "eigen3",
+    "version>=" : "3.4.0#4"
+  }, {
+    "name" : "imgui",
+    "version>=" : "1.91.0",
+    "features" : [ "glfw-binding", "opengl3-binding", "docking-experimental" ]
+  }, {
+    "name" : "boost-signals2",
+    "version>=" : "1.85.0#1"
+  } ]
+}
