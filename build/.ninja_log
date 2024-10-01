@@ -1,0 +1,12 @@
+# ninja log v6
+21	329	7495284919381622	src/core/CMakeFiles/core.dir/framerate.cpp.obj	e652852cca82841d
+38	169	7495284919544205	src/core/CMakeFiles/core.dir/cursor_state.cpp.obj	4364b2b4b82cd3a9
+330	1041	7495284922463430	src/renderer/CMakeFiles/renderer.dir/quad_mesh.cpp.obj	459bc1b395da9892
+15	1086	7495284919310411	src/os/CMakeFiles/os.dir/sleeper.cpp.obj	a3af520e97c3db64
+24	1177	7495284919411619	src/core/CMakeFiles/core.dir/frame_limiter.cpp.obj	c94b481d262605ee
+27	1228	7495284919441585	src/core/CMakeFiles/core.dir/frame_timer.cpp.obj	ab8836fb3956b758
+30	1446	7495284919474204	src/core/CMakeFiles/core.dir/input_manager.cpp.obj	230857fbe39f617d
+41	1557	7495284919579327	src/core/CMakeFiles/core.dir/glfw_context.cpp.obj	d714df9c7d215ce8
+34	2103	7495284919504210	src/core/CMakeFiles/core.dir/startup_config.cpp.obj	508f5ca3a603d646
+54	2443	7495284919704576	src/renderer/CMakeFiles/renderer.dir/shader.cpp.obj	e233c6f41bef39ab
+44	3040	7495284919609327	src/renderer/CMakeFiles/renderer.dir/renderer.cpp.obj	9013e96cb98c0511

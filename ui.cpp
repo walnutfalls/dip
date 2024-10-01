@@ -39,6 +39,8 @@ void dip::ui::draw() {
     if (ImGui::Button("Browse PPM A")) {
         if (const auto path = os::browse_dialog()) {
             ppm1 = *path;
+            ppm1Changed(ppm1);
+            opChanged(operation);
         }
     }
     if (!ppm1.empty()) {
@@ -48,6 +50,8 @@ void dip::ui::draw() {
     if (ImGui::Button("Browse PPM B")) {
         if (const auto path = os::browse_dialog()) {
             ppm2 = *path;
+            ppm2Changed(ppm2);
+            opChanged(operation);
         }
     }
     if (!ppm2.empty()) {
@@ -56,6 +60,48 @@ void dip::ui::draw() {
 
     ImGui::Checkbox("Bilinear", &bilinear);
 
+    if (ImGui::RadioButton("Split", operation==operation::split)) {
+        operation = split;
+        opChanged(operation);
+    }
+    if (ImGui::RadioButton("Add", operation==operation::add)) {
+        operation = add;
+        opChanged(operation);
+    }
+    if (ImGui::RadioButton("Subtract", operation==operation::sub)) {
+        operation = sub;
+        opChanged(operation);
+    }
+    if (ImGui::RadioButton("Multiply", operation==operation::mul)) {
+        operation = mul;
+        opChanged(operation);
+    }
+    if (ImGui::RadioButton("Negate", operation==operation::negate)) {
+        operation = negate;
+        opChanged(operation);
+    }
+    if (ImGui::RadioButton("Log", operation==operation::log)) {
+        operation = log;
+        opChanged(operation);
+    }
+    if (ImGui::RadioButton("Gamma", operation==operation::gamma)) {
+        operation = gamma;
+        opChanged(operation);
+    }
+
+    if (operation==operation::gamma) {
+        if (ImGui::DragFloat("gamma", &gamma_val, 0.01, 0, 1)) {
+            opChanged(operation);
+        }
+
+        if (ImGui::DragFloat("gamma_c", &gamma_c, 0.1, -100, 100)) {
+            opChanged(operation);
+        }
+    } else {
+        if (ImGui::DragFloat("log_c", &log_c, 0.1, -100, 100)) {
+            opChanged(operation);
+        }
+    }
     ImGui::End();
 
     ImGui::Render();

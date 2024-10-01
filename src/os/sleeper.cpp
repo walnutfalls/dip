@@ -24,21 +24,20 @@ os::sleeper::~sleeper()
     timeEndPeriod(wTimerRes);
 }
 
-void os::sleeper::sleep(std::chrono::nanoseconds ns)
-{
-    auto timeout_ms = std::chrono::duration_cast<std::chrono::milliseconds> (_timeout);
+void os::sleeper::sleep(const std::chrono::nanoseconds nanoseconds) const {
+    const auto timeout_ms = std::chrono::duration_cast<std::chrono::milliseconds> (_timeout);
 
     HANDLE timer;
     LARGE_INTEGER time_definition;
     
-    if (!(timer = CreateWaitableTimer(NULL, TRUE, NULL)))
+    if (!(timer = CreateWaitableTimer(nullptr, TRUE, nullptr)))
     {
         throw std::runtime_error("Failed to create a timer");
     }    
     
-    time_definition.QuadPart = -ns.count() / 100;
+    time_definition.QuadPart = -nanoseconds.count() / 100;
 
-    if (!SetWaitableTimer(timer, &time_definition, 0, NULL, NULL, FALSE)) {
+    if (!SetWaitableTimer(timer, &time_definition, 0, nullptr, nullptr, FALSE)) {
         CloseHandle(timer);
         throw std::runtime_error("Failed to set waitable timer properties");
     }

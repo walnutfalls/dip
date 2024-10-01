@@ -1,4 +1,4 @@
-#include <iostream>
+
 #include <glbinding/glbinding.h>
 #include <glbinding/gl/gl.h>
 
@@ -64,9 +64,9 @@ namespace renderer {
         gl::glDebugMessageCallback(gl_debug_callback, nullptr);
     }
 
-    void renderer::update() {
+    void renderer::update(int width, int height) {
         using namespace gl;
-
+        gl::glViewport(0, 0, width, height);
         gl::glClearColor(clearColor[0], clearColor[1], clearColor[2], 1.f);
         gl::glClear(clearMask);
     }

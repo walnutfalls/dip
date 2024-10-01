@@ -18,7 +18,7 @@ namespace os
 		explicit sleeper(std::chrono::seconds timeout = DefaultTimeout);
 		~sleeper();
 
-		void sleep(std::chrono::nanoseconds nanoseconds);
+		void sleep(std::chrono::nanoseconds nanoseconds) const;
 
 	private:
 		std::chrono::seconds _timeout;

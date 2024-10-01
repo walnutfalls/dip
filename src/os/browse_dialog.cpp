@@ -4,9 +4,13 @@
 #include "TargetConditionals.h"
 #ifdef TARGET_OS_MAC
 
+
+
 std::optional<std::string> os::browse_dialog() {
     throw std::runtime_error("unsupported platform");
 }
+
+
 
 #endif
 #elif defined _WIN32 || defined _WIN64
@@ -36,8 +40,8 @@ const COMDLG_FILTERSPEC c_rgSaveTypes[] =
 std::optional<std::string> BasicFileOpen()
 {
     // CoCreate the File Open Dialog object.
-    IFileDialog *pfd = NULL;
-    HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
+    IFileDialog *pfd = nullptr;
+    HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
     if (SUCCEEDED(hr))
     {
         // Set the options on the dialog.
@@ -64,7 +68,7 @@ std::optional<std::string> BasicFileOpen()
                         if (SUCCEEDED(hr))
                         {
                             // Show the dialog
-                            hr = pfd->Show(NULL);
+                            hr = pfd->Show(nullptr);
                             if (SUCCEEDED(hr))
                             {
                                 // Obtain the result, once the user clicks the 'Open' button.
@@ -74,7 +78,7 @@ std::optional<std::string> BasicFileOpen()
                                 if (SUCCEEDED(hr))
                                 {
                                     // Convert to normal string and return if all went well
-                                    PWSTR pszFilePath = NULL;
+                                    PWSTR pszFilePath = nullptr;
                                     hr = psiResult->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
                                     if (SUCCEEDED(hr))
                                     {

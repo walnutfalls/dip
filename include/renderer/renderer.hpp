@@ -22,7 +22,7 @@ class renderer {
     public:
         explicit renderer();
 
-    void update();
+    void update(int width, int height);
 
     private:
         gl::ClearBufferMask clearMask { gl::ClearBufferMask::GL_COLOR_BUFFER_BIT };
