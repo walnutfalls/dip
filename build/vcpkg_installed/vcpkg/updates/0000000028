@@ -1,0 +1,9 @@
+Package: boost-utility
+Version: 1.85.0
+Port-Version: 1
+Depends: boost-assert, boost-cmake, boost-config, boost-core, boost-headers, boost-io, boost-preprocessor, boost-throw-exception, boost-type-traits
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 4649d161ae0b8b2349d4eca772d93e36d876fb216006ade8814feef0d7db28c8
+Description: Boost utility module
+Status: install ok half-installed

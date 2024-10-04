@@ -9,7 +9,9 @@
 std::optional<std::string> os::browse_dialog() {
     throw std::runtime_error("unsupported platform");
 }
-
+std::optional<std::string> os::save_dialog() {
+    throw std::runtime_error("unsupported platform");
+}
 
 
 #endif
@@ -37,11 +39,11 @@ const COMDLG_FILTERSPEC c_rgSaveTypes[] =
 #define INDEX_WEBPAGE 2
 #define INDEX_TEXTDOC 3
 
-std::optional<std::string> BasicFileOpen()
+std::optional<std::string> BasicFileOpen(const IID & rclsid)
 {
     // CoCreate the File Open Dialog object.
     IFileDialog *pfd = nullptr;
-    HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
+    HRESULT hr = CoCreateInstance(rclsid, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
     if (SUCCEEDED(hr))
     {
         // Set the options on the dialog.
@@ -106,11 +108,19 @@ std::optional<std::string> BasicFileOpen()
 }
 
 std::optional<std::string> os::browse_dialog() {
-    return BasicFileOpen();
+    return BasicFileOpen(CLSID_FileOpenDialog);
 }
+std::optional<std::string> os::save_dialog() {
+    return BasicFileOpen(CLSID_FileSaveDialog);
+}
+
+
 #elif defined linux
 
 std::optional<std::string> os::browse_dialog() {
+    throw std::runtime_error("unsupported platform");
+}
+std::optional<std::string> os::save_dialog() {
     throw std::runtime_error("unsupported platform");
 }
 

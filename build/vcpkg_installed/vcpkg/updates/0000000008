@@ -1,0 +1,9 @@
+Package: boost-cmake
+Version: 1.85.0
+Port-Version: 2
+Depends: boost-uninstall, vcpkg-boost, vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 0279f17fe74db7277b61277ac7f135749d568fbb37450413fb8661c938da6309
+Description: Boost CMake support infrastructure
+Status: install ok half-installed

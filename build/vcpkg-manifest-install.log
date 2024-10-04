@@ -1,7 +1,245 @@
 Detecting compiler hash for triplet x64-windows...
 Compiler found: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe
-All requested packages are currently installed.
-Total install time: 1.1 us
+The following packages will be built and installed:
+  * abseil:x64-windows@20240722.0 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\abseil\95ed5fee53b8698ac2cc6687f470e6fa76474a3a
+  * boost-assert:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-assert\a776f9bcec97f99c681858373363b6c973deecff
+  * boost-bind:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-bind\111429d845df26d20305f3d7da0286840f2ab06a
+  * boost-cmake:x64-windows@1.85.0#2 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-cmake\2b1869c19b01257dc08348e1b29bcd7d5bad2fcc
+  * boost-concept-check:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-concept-check\837108f5652827b449bdfb5830891aba380293c3
+  * boost-config:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-config\964bd95c86a98c1c8c5271b4a18e617869ce2348
+  * boost-container-hash:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-container-hash\dea487fe4339749373fbbb3d67d38bc07f25fcd6
+  * boost-core:x64-windows@1.85.0#2 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-core\1a9aca564910d4927aab2a0b3edd5dcc92a0a484
+  * boost-describe:x64-windows@1.85.0#2 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-describe\bc47f93f7585264ea56a760693785eef00fc2324
+  * boost-detail:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-detail\c61fada41d8ba3839e6cbed4e90bcd12e44ee839
+  * boost-function:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-function\6a43002e49ebc7efbaef90a797ab79a73a3c914d
+  * boost-function-types:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-function-types\f104ffe8e18e3f3ee0a80d8e5bf80b57933dfe2d
+  * boost-functional:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-functional\985d85794495e615e94e17c007055281850498e3
+  * boost-fusion:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-fusion\2defb3e586f0a240aebb673357201d5a3332da96
+  * boost-headers:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-headers\dc074dbcbe8adaf7970a9dc92d8c385267042e0c
+  * boost-integer:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-integer\a1ffd40ae899157571353903f1d34f26a76d2314
+  * boost-io:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-io\3fa4c0dc034227cee5c7e0725300c2f90359b14e
+  * boost-iterator:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-iterator\7140544c82b8985f676a67fbe07e70118cf4278f
+  * boost-move:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-move\0b7c85608cba0c5e4f3f68f8c3687edae3b77b14
+  * boost-mp11:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-mp11\880c42ad4df9c2f2f7dc3125f9f49c3c289726ce
+  * boost-mpl:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-mpl\44e66fb813fd1c2180fb4676afc5be607f22baf7
+  * boost-optional:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-optional\315e38ed952641dc2a064ab7a51f8050640190b9
+  * boost-parameter:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-parameter\355ecc02b1782f48f977906d1ebaf8ec048b01b3
+  * boost-predef:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-predef\509cb8e43b7f40b5ac27f6d2fcc930517726af4d
+  * boost-preprocessor:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-preprocessor\77759780d7bf4571b481aa189a7bb7150206b3cb
+    boost-signals2:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-signals2\1ed53bf8b407448d660a178946f2099a2f9aa9df
+  * boost-smart-ptr:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-smart-ptr\12b7fc7a25dc88e99e9a71da259c5467f3ae4e4a
+  * boost-static-assert:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-static-assert\da6fbe5e5e5a77cd1a4507e272781f5ac12f61f1
+  * boost-throw-exception:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-throw-exception\1484d8b3741dbf840c0c88a8bb1205efcf66c288
+  * boost-tuple:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-tuple\0f3d4dcd2e276bfcf1af7e3eaab6503d281e5407
+  * boost-type-index:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-type-index\6adc7c806c0465ba3d419938d7cea2b3c1c62a72
+  * boost-type-traits:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-type-traits\fd334eb6c15dd762232760cb740567c6a2ade780
+  * boost-typeof:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-typeof\1f5378d3498322cbbfbfe18cdbbeb0ec8079aaeb
+  * boost-uninstall:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-uninstall\ac48829be60fd0ac2bd81b1774ae317c2d0d406e
+  * boost-utility:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-utility\0421ccb31f254874d8f0814bb2266c13255c4822
+  * boost-variant:x64-windows@1.85.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\boost-variant\479cb9754b33ed6005f55373d2b5364c2ad7b377
+  * egl-registry:x64-windows@2024-01-25 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\egl-registry\d883db43133dd223c4ffdbef4193943f6784d43a
+    eigen3:x64-windows@3.4.0#4 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\eigen3\17249b310c689b0722c3ee825780a8e24c7d73a2
+  * flatbuffers:x64-windows@24.3.25 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\flatbuffers\f8e85b45608b4005d8e8b4a96cfe11a5c2686e92
+  * fmt:x64-windows@11.0.2#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\fmt\07a73a7565e5de9eb42e90c16c133bdfdfebbcda
+    glbinding:x64-windows@3.1.0#4 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\glbinding\5932f5a201e721aa59a787380b9448e1018bb4b3
+    glfw3:x64-windows@3.4#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\glfw3\d4bbd4f27c2ca619f57778985120cddcedadb1cc
+    imgui[core,docking-experimental,glfw-binding,opengl3-binding]:x64-windows@1.91.0 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\imgui\09b0e91307c74efecc2b8860b3a25f4e11aa96d3
+  * libjpeg-turbo:x64-windows@3.0.4 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\libjpeg-turbo\fbedc8ef954f9951c7d169c9bac3f9534b4b2c77
+  * liblzma:x64-windows@5.6.2 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\liblzma\5d13d80adafad99c23899a3f7b60b32c2dae1e43
+  * libpng:x64-windows@1.6.43#3 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\libpng\9c7fd06f1cdd1dfc08b35ca9d6b0ba470cdd2470
+  * libwebp[core,libwebpmux,nearlossless,simd,unicode]:x64-windows@1.4.0#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\libwebp\9d0c00119dd6ec04488b4e0c926aa3ae73b95847
+    nlohmann-json:x64-windows@3.11.3#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\nlohmann-json\324d32ddba70bc49650d1a067ddcf3d0bfc6c9b6
+    opencv4[core,default-features,dnn,jpeg,png,quirc,tiff,webp]:x64-windows@4.8.0#22 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\opencv4\f1c14acfbb673af2479af39dd8424c8f151752ad
+  * protobuf:x64-windows@4.25.1#1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\protobuf\5479e9c75e5ed6401d10163a0fa8f281dcf33f0f
+  * quirc:x64-windows@1.2 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\quirc\f586c894573b92fc601590eb0e38b3e54e0c7f5c
+    spdlog:x64-windows@1.14.1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\spdlog\545d0306db761411e23623ae6f44fc196cb571f7
+  * tiff[core,jpeg,lzma,zip]:x64-windows@4.6.0#5 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\tiff\6a3bae487fe89087457e2a391ee9720d68393616
+  * utf8-range:x64-windows@4.25.1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\utf8-range\b4f93db62704293a100326ad0561ab1c5aa2d856
+  * vcpkg-boost:x64-windows@2024-05-15 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\vcpkg-boost\aca8ab6ec76d120c4482a629de23cad5ad7e4643
+    vcpkg-cmake:x64-windows@2024-04-23 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\vcpkg-cmake\e74aa1e8f93278a8e71372f1fa08c3df420eb840
+    vcpkg-cmake-config:x64-windows@2024-05-23 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\vcpkg-cmake-config\97a63e4bc1a17422ffe4eff71da53b4b561a7841
+  * vcpkg-get-python-packages:x64-windows@2024-01-24 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\vcpkg-get-python-packages\9205135e78e0cad47fd43c2f7abada1f4fbbdbaa
+  * zlib:x64-windows@1.3.1 -- C:\Users\s\dev\dip\bin\vcpkg\buildtrees\versioning_\versions\zlib\3f05e04b9aededb96786a911a16193cdb711f0c9
+Additional packages (*) will be modified to complete this operation.
+Restored 59 package(s) from C:\Users\s\AppData\Local\vcpkg\archives in 6.3 s. Use --debug to see more details.
+Installing 1/59 vcpkg-cmake-config:x64-windows@2024-05-23...
+Elapsed time to handle vcpkg-cmake-config:x64-windows: 3.95 ms
+vcpkg-cmake-config:x64-windows package ABI: 2bdc1ef356c5385d4aa7ef7decfff8e68c8e4751170c19ce6b15b3a862b9a20e
+Installing 2/59 vcpkg-cmake:x64-windows@2024-04-23...
+Elapsed time to handle vcpkg-cmake:x64-windows: 6.8 ms
+vcpkg-cmake:x64-windows package ABI: fa13559191e96a3bd6e6960b635ddf4a0eb509199816dd8535a820467b3c074f
+Installing 3/59 vcpkg-boost:x64-windows@2024-05-15...
+Elapsed time to handle vcpkg-boost:x64-windows: 5.66 ms
+vcpkg-boost:x64-windows package ABI: fd1de3df8c518d7890e27bd3b9858315540285b88ea020848f6929f38ae6788e
+Installing 4/59 boost-uninstall:x64-windows@1.85.0#1...
+Elapsed time to handle boost-uninstall:x64-windows: 6.18 ms
+boost-uninstall:x64-windows package ABI: c2cac4ca502086279cf9384ed0009da9ad4b0218338aad5a81d99c255a719cce
+Installing 5/59 boost-cmake:x64-windows@1.85.0#2...
+Elapsed time to handle boost-cmake:x64-windows: 7.76 ms
+boost-cmake:x64-windows package ABI: 0279f17fe74db7277b61277ac7f135749d568fbb37450413fb8661c938da6309
+Installing 6/59 boost-headers:x64-windows@1.85.0#1...
+Elapsed time to handle boost-headers:x64-windows: 7.35 ms
+boost-headers:x64-windows package ABI: 868c063a9e5a093522eedda40be89fd91e5215c88403f016f8103210ed18fa1b
+Installing 7/59 boost-config:x64-windows@1.85.0#1...
+Elapsed time to handle boost-config:x64-windows: 57.5 ms
+boost-config:x64-windows package ABI: 475a94e58e8c0b1fb6dd215d17c8ddbc68b7c7859549f0e5adf0df4cfcd9ea25
+Installing 8/59 boost-static-assert:x64-windows@1.85.0#1...
+Elapsed time to handle boost-static-assert:x64-windows: 10.4 ms
+boost-static-assert:x64-windows package ABI: ba298a01131e72833cfc6f9b10c57c565653d6784376f2fcfe91a1667d5e98de
+Installing 9/59 boost-type-traits:x64-windows@1.85.0#1...
+Elapsed time to handle boost-type-traits:x64-windows: 45.5 ms
+boost-type-traits:x64-windows package ABI: 0a65068efde69af75f275eb3388f6a897d77cece24de156bf2786ca9acaec2aa
+Installing 10/59 boost-assert:x64-windows@1.85.0#1...
+Elapsed time to handle boost-assert:x64-windows: 10.1 ms
+boost-assert:x64-windows package ABI: 769a1d619dcfefa1b53a4b393724a170888ea8420c004f9be4d29fc55717783a
+Installing 11/59 boost-throw-exception:x64-windows@1.85.0#1...
+Elapsed time to handle boost-throw-exception:x64-windows: 7.75 ms
+boost-throw-exception:x64-windows package ABI: 14b76e93df848dd22a2bff4517b660fc5de2aaf1fcde3e8186079130a5f55091
+Installing 12/59 boost-preprocessor:x64-windows@1.85.0#1...
+Elapsed time to handle boost-preprocessor:x64-windows: 92.7 ms
+boost-preprocessor:x64-windows package ABI: 9bf637a04fa2cc8d332a68facd62070eb594b77a5fddd520c97b3a7bb7f615a4
+Installing 13/59 boost-io:x64-windows@1.85.0#1...
+Elapsed time to handle boost-io:x64-windows: 11.8 ms
+boost-io:x64-windows package ABI: f796274ed74ac5367774daa210ce5f8a25bbed36e35c9ea7ef76db10caed5ff7
+Installing 14/59 boost-core:x64-windows@1.85.0#2...
+Elapsed time to handle boost-core:x64-windows: 23 ms
+boost-core:x64-windows package ABI: 63643921ec53e32bae0e973b64200a255514f932859cab81b1afdcd51b67ef9c
+Installing 15/59 boost-utility:x64-windows@1.85.0#1...
+Elapsed time to handle boost-utility:x64-windows: 15.9 ms
+boost-utility:x64-windows package ABI: 4649d161ae0b8b2349d4eca772d93e36d876fb216006ade8814feef0d7db28c8
+Installing 16/59 boost-mp11:x64-windows@1.85.0#1...
+Elapsed time to handle boost-mp11:x64-windows: 16.5 ms
+boost-mp11:x64-windows package ABI: dfe4974d66a32ade7768e3eec374130fd4e0f51d97c83a458be9f7f4fcc30420
+Installing 17/59 boost-describe:x64-windows@1.85.0#2...
+Elapsed time to handle boost-describe:x64-windows: 13.5 ms
+boost-describe:x64-windows package ABI: d23386f7e1b07a67c8a25e1f3513afce88f8dad1212eca4f560242894bbb42d9
+Installing 18/59 boost-container-hash:x64-windows@1.85.0#1...
+Elapsed time to handle boost-container-hash:x64-windows: 13.2 ms
+boost-container-hash:x64-windows package ABI: 433c80f7105a99a07ab92096be99044841bc2a01131285e1fe068da3c64fbb9e
+Installing 19/59 boost-type-index:x64-windows@1.85.0#1...
+Elapsed time to handle boost-type-index:x64-windows: 13.6 ms
+boost-type-index:x64-windows package ABI: 4a1aa9323debf007675d6f2641dca90def3748693204bdc5b22c1fd19c9f4ebe
+Installing 20/59 boost-predef:x64-windows@1.85.0#1...
+Elapsed time to handle boost-predef:x64-windows: 41 ms
+boost-predef:x64-windows package ABI: 02685e6fa5d7185435094e40e37933ea2ac50432780ff70b5c3bc389e56e9525
+Installing 21/59 boost-mpl:x64-windows@1.85.0#1...
+Elapsed time to handle boost-mpl:x64-windows: 213 ms
+boost-mpl:x64-windows package ABI: 004b40285e7573478136bca3f5c46c721054a293959b48abec905dae582c78a2
+Installing 22/59 boost-integer:x64-windows@1.85.0#1...
+Elapsed time to handle boost-integer:x64-windows: 13.7 ms
+boost-integer:x64-windows package ABI: 632163b7118cb6e8c2199ebc102a805147e4f70559edb2fbec0909374cda0e7f
+Installing 23/59 boost-detail:x64-windows@1.85.0#1...
+Elapsed time to handle boost-detail:x64-windows: 12.9 ms
+boost-detail:x64-windows package ABI: 2ab11babd433e2a2ce26b8f1916fc181255c8dfe8a93c9ed27ac7798d1f9cf4a
+Installing 24/59 boost-variant:x64-windows@1.85.0#1...
+Elapsed time to handle boost-variant:x64-windows: 17 ms
+boost-variant:x64-windows package ABI: 85652164dcd0096fb58ae1e0862713fffcd8055202239df7cd739b8d6ba280bf
+Installing 25/59 boost-tuple:x64-windows@1.85.0#1...
+Elapsed time to handle boost-tuple:x64-windows: 11.3 ms
+boost-tuple:x64-windows package ABI: d3870bbc9636c46276c5d44396f0331917216ab08d10542a40c87b23fda25e14
+Installing 26/59 boost-move:x64-windows@1.85.0#1...
+Elapsed time to handle boost-move:x64-windows: 18.1 ms
+boost-move:x64-windows package ABI: ca4cc4fa5f91fe390dd150d2e44acebb0bbf7a031bbbe5e12b7fa846137249a6
+Installing 27/59 boost-smart-ptr:x64-windows@1.85.0#1...
+Elapsed time to handle boost-smart-ptr:x64-windows: 33.1 ms
+boost-smart-ptr:x64-windows package ABI: d8c7ee8cb9c37c1ad1bb04691b090d9b6c9490729111ab33ad92d0a11872bd54
+Installing 28/59 boost-optional:x64-windows@1.85.0#1...
+Elapsed time to handle boost-optional:x64-windows: 13.8 ms
+boost-optional:x64-windows package ABI: 11e3273d68ac0e69a1d38d809adc3de789169d77d718cdb1ebb422ac7f6ca240
+Installing 29/59 boost-typeof:x64-windows@1.85.0#1...
+Elapsed time to handle boost-typeof:x64-windows: 16.5 ms
+boost-typeof:x64-windows package ABI: fc281116fc314bff4a7222595616630f6eb2167da6a6cd0b1c21f604fdf74316
+Installing 30/59 boost-function-types:x64-windows@1.85.0#1...
+Elapsed time to handle boost-function-types:x64-windows: 33.1 ms
+boost-function-types:x64-windows package ABI: cc060fdee449a2824b9a34e3843f257e43d4561f108a72b6d3b7a2f7c93c495f
+Installing 31/59 boost-bind:x64-windows@1.85.0#1...
+Elapsed time to handle boost-bind:x64-windows: 17 ms
+boost-bind:x64-windows package ABI: ea7dd3c04408ff38df60b678d4427bb580d8c42b91b27cd33843ec01dfc52d93
+Installing 32/59 boost-function:x64-windows@1.85.0#1...
+Elapsed time to handle boost-function:x64-windows: 17 ms
+boost-function:x64-windows package ABI: 86f487d37f1e12033f65dc4299831694868477bb0c70834b3e0336774a8caffa
+Installing 33/59 boost-functional:x64-windows@1.85.0#1...
+Elapsed time to handle boost-functional:x64-windows: 15.8 ms
+boost-functional:x64-windows package ABI: 149649f16a20d29e09e973f43c089daaf3f3f93bc079271b3f2f8abb5bcc1bf9
+Installing 34/59 boost-fusion:x64-windows@1.85.0#1...
+Elapsed time to handle boost-fusion:x64-windows: 235 ms
+boost-fusion:x64-windows package ABI: 0e4fb6898367888bbed74d28fee5851bb376e0ece3cf20b50635a458171d455d
+Installing 35/59 boost-parameter:x64-windows@1.85.0#1...
+Elapsed time to handle boost-parameter:x64-windows: 32.2 ms
+boost-parameter:x64-windows package ABI: 4e575321135a40be5417841c53ec58990e3c6962876b6a5f5e9ec3ad1094a618
+Installing 36/59 boost-concept-check:x64-windows@1.85.0#1...
+Elapsed time to handle boost-concept-check:x64-windows: 15.7 ms
+boost-concept-check:x64-windows package ABI: d0804d4acb9f623865232ce6c4c061cf1bbee480b24e967318f8f325c5fc841b
+Installing 37/59 boost-iterator:x64-windows@1.85.0#1...
+Elapsed time to handle boost-iterator:x64-windows: 21.1 ms
+boost-iterator:x64-windows package ABI: aaee931076023ec7e7edb1353b88560befed7132861a8a9865f3cef7b21e01b6
+Installing 38/59 boost-signals2:x64-windows@1.85.0#1...
+Elapsed time to handle boost-signals2:x64-windows: 20.5 ms
+boost-signals2:x64-windows package ABI: 018c799e4671a837ef45a9c8efd194768f7b74e97c21d21307c64e8b23634398
+Installing 39/59 eigen3:x64-windows@3.4.0#4...
+Elapsed time to handle eigen3:x64-windows: 235 ms
+eigen3:x64-windows package ABI: 79050e7ff159ab71eff37fa9f2fb6776892ad1f9e022239d68526f9775155558
+Installing 40/59 egl-registry:x64-windows@2024-01-25...
+Elapsed time to handle egl-registry:x64-windows: 14.7 ms
+egl-registry:x64-windows package ABI: 30f221895b16c35ef3ff9653e105c7d9e475c887c65c63b13261a73e18ba3143
+Installing 41/59 glbinding:x64-windows@3.1.0#4...
+Elapsed time to handle glbinding:x64-windows: 92.2 ms
+glbinding:x64-windows package ABI: 4d80c5b68928a71c12ff6bcc09a054402c5263ec5cbebe3866ffaf7463199a2a
+Installing 42/59 glfw3:x64-windows@3.4#1...
+Elapsed time to handle glfw3:x64-windows: 16.3 ms
+glfw3:x64-windows package ABI: da5ccee048e4706f1bfd50bced715f98bff29326d0d780c7589e725869bce107
+Installing 43/59 imgui[core,docking-experimental,glfw-binding,opengl3-binding]:x64-windows@1.91.0...
+Elapsed time to handle imgui:x64-windows: 16.3 ms
+imgui:x64-windows package ABI: 4bf7b11d7b935b50fc3f0756e194f748958a1aba11d3cc9eb9c851d885f05e0b
+Installing 44/59 nlohmann-json:x64-windows@3.11.3#1...
+Elapsed time to handle nlohmann-json:x64-windows: 22.3 ms
+nlohmann-json:x64-windows package ABI: 47623ffff82230827b12a305234c611cfd8ea2d5efa261e25e806493706f6a74
+Installing 45/59 libwebp[core,libwebpmux,nearlossless,simd,unicode]:x64-windows@1.4.0#1...
+Elapsed time to handle libwebp:x64-windows: 27 ms
+libwebp:x64-windows package ABI: 0517d6c28f3501b0c044b6f81d6bbef84863a81d92e666ed6e9bc8191f0d86df
+Installing 46/59 zlib:x64-windows@1.3.1...
+Elapsed time to handle zlib:x64-windows: 13.5 ms
+zlib:x64-windows package ABI: ab222138e87f32c7e973c612536aeec600d6d959510860105a8c0d1ae6c55036
+Installing 47/59 liblzma:x64-windows@5.6.2...
+Elapsed time to handle liblzma:x64-windows: 21.5 ms
+liblzma:x64-windows package ABI: 97d233b57d3cc6c2bdb1e2104b8208fb4c04abdc5e9efd67ee5c6b7852a8a09d
+Installing 48/59 libjpeg-turbo:x64-windows@3.0.4...
+Elapsed time to handle libjpeg-turbo:x64-windows: 17.9 ms
+libjpeg-turbo:x64-windows package ABI: 2dc005fb99b737210fdb363b14d5e3e7a6e4cc100ce5d841497be30852adc142
+Installing 49/59 tiff[core,jpeg,lzma,zip]:x64-windows@4.6.0#5...
+Elapsed time to handle tiff:x64-windows: 18.8 ms
+tiff:x64-windows package ABI: 054debf75ad028ada2387e4682a982cfa2868d364eb8d2c8f65761d9da6656f2
+Installing 50/59 quirc:x64-windows@1.2...
+Elapsed time to handle quirc:x64-windows: 12.1 ms
+quirc:x64-windows package ABI: ac67f7217bfbb36179b6834768b16bbc803824fa3563c29ab323f710da1f7354
+Installing 51/59 libpng:x64-windows@1.6.43#3...
+Elapsed time to handle libpng:x64-windows: 15.9 ms
+libpng:x64-windows package ABI: 58161b4fd72349ae9f35bbe61b07f40c0f36af517918edeadbd86a534da87192
+Installing 52/59 abseil:x64-windows@20240722.0...
+Elapsed time to handle abseil:x64-windows: 219 ms
+abseil:x64-windows package ABI: d093cfa8afcca35ff8a4d27e3d7142e0cac0ee83edf02bfcba43ff569f80c8d9
+Installing 53/59 utf8-range:x64-windows@4.25.1...
+Elapsed time to handle utf8-range:x64-windows: 16.4 ms
+utf8-range:x64-windows package ABI: f791b4964e6620dba9c73382ac0ccd769c4663dde06e2425d40cb9b78adfa2b6
+Installing 54/59 protobuf:x64-windows@4.25.1#1...
+Elapsed time to handle protobuf:x64-windows: 64.5 ms
+protobuf:x64-windows package ABI: 851454f84712912c81c31ef758431babd0fa6f007a81dbe3248fc22c46b08e8f
+Installing 55/59 flatbuffers:x64-windows@24.3.25...
+Elapsed time to handle flatbuffers:x64-windows: 22.8 ms
+flatbuffers:x64-windows package ABI: dd087a6a8e582574b503695d3bcb612042d698904e62d2e6e69a3770e9191279
+Installing 56/59 vcpkg-get-python-packages:x64-windows@2024-01-24...
+Elapsed time to handle vcpkg-get-python-packages:x64-windows: 12.6 ms
+vcpkg-get-python-packages:x64-windows package ABI: 755088f755e7e96bc44110432bf5356bf9e400fc47c8b477c48480baee8557d6
+Installing 57/59 opencv4[core,default-features,dnn,jpeg,png,quirc,tiff,webp]:x64-windows@4.8.0#22...
+Elapsed time to handle opencv4:x64-windows: 87.4 ms
+opencv4:x64-windows package ABI: 62637e0e485b5a4556c5f686333c737720cbf026e2081588be37264362f57adf
+Installing 58/59 fmt:x64-windows@11.0.2#1...
+Elapsed time to handle fmt:x64-windows: 17.6 ms
+fmt:x64-windows package ABI: 2c045faa4e84411ce46f594afe232973e451fb10e72533fddb46bf323ae0066e
+Installing 59/59 spdlog:x64-windows@1.14.1...
+Elapsed time to handle spdlog:x64-windows: 39.4 ms
+spdlog:x64-windows package ABI: 9cc9c1189226576cf1a002690c0eae22b4711348746d9f7f80f133f6d4b194b7
+Total install time: 2.2 s
 boost-signals2 provides CMake targets:
 
   # this is heuristically generated, and may not be correct

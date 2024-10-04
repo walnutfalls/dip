@@ -1,8 +1,8 @@
-cmake_minimum_required(VERSION 3.29)
+cmake_minimum_required(VERSION 3.14)
 project(dip)
 
-set(CMAKE_CXX_STANDARD 17)
 
+set(CMAKE_CXX_STANDARD 17)
 set(OpenCV_DIR "${VCPKG_INSTALLED_DIR}/x64-windows/share/opencv4")
 
 
@@ -16,20 +16,5 @@ find_package(imgui CONFIG REQUIRED)
 find_package(boost_signals2 REQUIRED CONFIG)
 
 
-
 add_subdirectory(src)
-
-add_executable(dip main.cpp ui.cpp)
-target_link_libraries(dip PRIVATE
-        os
-        core
-        renderer
-        ${OpenCV_LIBS}
-        imgui::imgui
-        Boost::signals2)
-
-add_custom_command(
-        TARGET dip PRE_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/assets ${CMAKE_CURRENT_BINARY_DIR}/assets
-)
 

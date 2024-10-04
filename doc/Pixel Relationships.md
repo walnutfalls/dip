@@ -49,6 +49,7 @@ def ccl(img, connectivity):
 		for pixel in row:
 			if is_foreground(img, pixel) and labels[pixel] == [0,0,0]:
 				traverse_region(img, labels, pixel, connectivity, current_label)
+				current_label = random_color()                                                                                                                                                                                                                                                              
 		
 ```
 

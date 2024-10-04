@@ -1,0 +1,9 @@
+Package: glbinding
+Version: 3.1.0
+Port-Version: 4
+Depends: egl-registry, vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 4d80c5b68928a71c12ff6bcc09a054402c5263ec5cbebe3866ffaf7463199a2a
+Description: glbinding is an MIT licensed, cross-platform C++ binding for the OpenGL API
+Status: install ok half-installed

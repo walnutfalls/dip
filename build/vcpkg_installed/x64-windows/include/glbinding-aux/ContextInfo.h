@@ -63,10 +63,10 @@ public:
 
     /**
     *  @brief
-    *    Queries the renderer string
+    *    Queries the render string
     *
     *  @return
-    *    The renderer string
+    *    The render string
     */
     static std::string renderer();
 

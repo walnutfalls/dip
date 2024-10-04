@@ -11,8 +11,12 @@
             "id": "8c88bf6f462430d8",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "source",
+                "source": false
+              }
             }
           },
           {
@@ -45,14 +49,13 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "Pixel Relationships.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "vertical"
@@ -166,8 +169,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -179,12 +181,13 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "0e7ab9e119bd2088",
+  "active": "8c88bf6f462430d8",
   "lastOpenFiles": [
-    "README.md~",
     "Pixel Relationships.md",
-    "README.md",
     "Morphological Image Processing.md",
+    "README.md",
+    "README 1.md",
+    "README.md~",
     "Welcome.md"
   ]
 }
