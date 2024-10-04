@@ -13,9 +13,6 @@ dip::ui::ui(GLFWwindow *window): _window(window) {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO &io = ImGui::GetIO();
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-    //io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // IF using Docking Branch
 
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -48,7 +45,7 @@ void dip::ui::drawControls() {
     ImGui::SetNextWindowPos({ 0, 0 });
     ImGui::SetNextWindowSize({ width/4.f, height/2.f });
 
-    ImGui::Begin("Controls", &my_tool_active);
+    ImGui::Begin("Controls");
 
     if (ImGui::Button("Browse PPM A")) {
         if (const auto path = os::browse_dialog()) {
@@ -74,69 +71,69 @@ void dip::ui::drawControls() {
 
     ImGui::Checkbox("Bilinear", &bilinear);
 
-    if (ImGui::RadioButton("Split", operation == operation::split)) {
+    if (ImGui::RadioButton("Split", operation == split)) {
         operation = split;
         opChanged(operation);
     }
-    if (ImGui::RadioButton("Add", operation == operation::add)) {
+    if (ImGui::RadioButton("Add", operation == add)) {
         operation = add;
         opChanged(operation);
     }
-    if (ImGui::RadioButton("Subtract", operation == operation::sub)) {
+    if (ImGui::RadioButton("Subtract", operation == sub)) {
         operation = sub;
         opChanged(operation);
     }
-    if (ImGui::RadioButton("Multiply", operation == operation::mul)) {
+    if (ImGui::RadioButton("Multiply", operation == mul)) {
         operation = mul;
         opChanged(operation);
     }
-    if (ImGui::RadioButton("Negate", operation == operation::negate)) {
+    if (ImGui::RadioButton("Negate", operation == negate)) {
         operation = negate;
         opChanged(operation);
     }
-    if (ImGui::RadioButton("Log", operation == operation::log)) {
+    if (ImGui::RadioButton("Log", operation == log)) {
         operation = log;
         opChanged(operation);
     }
-    if (ImGui::RadioButton("Gamma", operation == operation::gamma)) {
+    if (ImGui::RadioButton("Gamma", operation == gamma)) {
         operation = gamma;
         opChanged(operation);
     }
-    if (ImGui::RadioButton("Closest Component Labels", operation == operation::label)) {
+    if (ImGui::RadioButton("Closest Component Labels", operation == label)) {
         operation = label;
         opChanged(operation);
     }
 
-    if (operation == operation::gamma) {
-        if (ImGui::DragFloat("gamma", &gamma_val, 0.01, 0, 1)) {
+    if (operation == gamma) {
+        if (ImGui::DragFloat("gamma", &gamma_val, 0.01f, 0.f, 1.f)) {
             opChanged(operation);
         }
 
-        if (ImGui::DragFloat("gamma_c", &gamma_c, 0.1, -100, 100)) {
+        if (ImGui::DragFloat("gamma_c", &gamma_c, 0.1f, -100.f, 100.f)) {
             opChanged(operation);
         }
-    } else if (operation == operation::label) {
-        if (ImGui::DragFloat("CCL sensitivity", &ccl_sensitivity, 0.01, 0, 1)) {
+    } else if (operation == label) {
+        if (ImGui::DragFloat("CCL sensitivity", &ccl_sensitivity, 0.01f, 0.f, 1.f)) {
             opChanged(operation);
         }
 
-        if (ImGui::RadioButton("4-neighbor", connectivity == connectivity::four)) {
+        if (ImGui::RadioButton("4-neighbor", connectivity == four)) {
             connectivity = four;
             opChanged(operation);
         }
-        if (ImGui::RadioButton("8-neighbor", connectivity == connectivity::eight)) {
+        if (ImGui::RadioButton("8-neighbor", connectivity == eight)) {
             connectivity = eight;
             opChanged(operation);
         }
-        if (ImGui::RadioButton("m-neighbor", connectivity == connectivity::m)) {
+        if (ImGui::RadioButton("m-neighbor", connectivity == m)) {
             connectivity = m;
             opChanged(operation);
         }
-    } else if (operation == operation::log) {
-        if (ImGui::DragFloat("log_c", &log_c, 0.1, -100, 100)) {
+    } else if (operation == log) {
+        if (ImGui::DragFloat("log_c", &log_c, 0.1f, -100.f, 100.f)) {
             opChanged(operation);
         }
-        if (ImGui::DragFloat("log_base", &log_base, 0.1, 1.1, 20)) {
+        if (ImGui::DragFloat("log_base", &log_base, 0.1f, 1.1f, 20.f)) {
             opChanged(operation);
         }
     }
@@ -154,33 +151,46 @@ void dip::ui::drawConsole() {
     int width, height;
     glfwGetWindowSize(_window, &width, &height);
 
-    ImGui::SetNextWindowPos({ 0, height * 0.75f});
-    ImGui::SetNextWindowSize({ static_cast<float>(width), height * 0.75f});
 
+    static bool on = false;
 
-    ImGui::Begin("Console", &my_tool_active);
+    ImGui::SetNextWindowPos({ 0, on ? height * 0.75f : height - ImGui::GetFrameHeight()});
+    ImGui::SetNextWindowSize({ static_cast<float>(width), height * 0.25f});
 
-    if(ImGui::InputText("Input", command, 1023, ImGuiInputTextFlags_EnterReturnsTrue)) {
+    ImGui::SetNextWindowCollapsed(!console_visible, ImGuiCond_Once);
+    on = ImGui::Begin("Console");
+
+    const float fullWidth = ImGui::GetContentRegionAvail().x;
+    ImGui::SetNextItemWidth(fullWidth);
+
+    if(ImGui::InputText("##", command, 1023, ImGuiInputTextFlags_EnterReturnsTrue)) {
         const std::string cmd(command);
         commandIssued(cmd);
         command[0] = '\0';
-        history[2] = history[1];
-        history[1] = history[0];
-        history[0] = cmd;
+        write_output(cmd);
     }
-    ImGui::SameLine();
-    if (ImGui::Button("Enter")) {
-        const std::string cmd(command);
-        commandIssued(cmd);
-        command[0] = '\0';
-        history[2] = history[1];
-        history[1] = history[0];
-        history[0] = cmd;
-    }
-    ImGui::NewLine();
 
-    fullhist = history[0] + "\n" + history[1] + "\n" + history[2];
-    ImGui::Text(fullhist.c_str());
+    if (ImGui::IsItemHovered() || (!ImGui::IsAnyItemActive() && !ImGui::IsMouseClicked(0)))
+        ImGui::SetKeyboardFocusHere(-1);
+
+    _full_history = history[0];
+    for (int i = 1; i < HistoryLength; ++i) {
+        _full_history += '\n';
+        _full_history += history[i];
+    }
+
+    ImGui::SetNextItemWidth(fullWidth);
+
+    ImGui::BeginChild("ScrollableText", ImVec2(0, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
+    ImGui::Text(_full_history.c_str());
+    ImGui::EndChild();
 
     ImGui::End();
+}
+
+void dip::ui::write_output(const std::string &output) {
+    for (int i = HistoryLength-1; i > 1; --i) {
+        history[i] = history[i-1];
+    }
+    history[1] = output;
 }

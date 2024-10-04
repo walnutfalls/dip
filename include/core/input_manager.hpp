@@ -6,6 +6,7 @@
 #include <util/running_average.hpp>
 
 #define GLFW_INCLUDE_NONE
+#include <boost/signals2.hpp>
 #include <GLFW/glfw3.h>
 
 #include <Eigen/Core>
@@ -21,6 +22,8 @@ namespace core
         std::uint16_t _glfw_key_codes[128];
 
     public:
+        std::unordered_map<int, boost::signals2::signal<void()>> KeyEvents;
+
         explicit input_manager(GLFWwindow *window);
 
         [[nodiscard]] bool is_key_down(std::uint16_t key) const;

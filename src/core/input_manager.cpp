@@ -43,6 +43,11 @@ void core::input_manager::update()
     for(size_t i = 0; _glfw_key_codes[i] != GLFW_KEY_LAST; ++i)
     {
         _current_key_states[_glfw_key_codes[i]] = glfwGetKey(_window, _glfw_key_codes[i]);
+
+        auto event_it = KeyEvents.find(_glfw_key_codes[i]);
+        if (event_it != KeyEvents.end() && was_key_pressed(_glfw_key_codes[i])) {
+            event_it->second();
+        }
     }
 
     for(size_t i = 0; _glfw_mouse_button_codes[i] != GLFW_MOUSE_BUTTON_LAST; ++i)

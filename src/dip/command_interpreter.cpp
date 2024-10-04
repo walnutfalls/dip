@@ -3,49 +3,93 @@
 #include <algorithm>
 
 
+bool is_ws(const std::string& str) {
+    return std::all_of(str.begin(), str.end(), [](unsigned char c) { return std::isspace(c); });
+}
+
+std::string dip::command_interpreter::qualify(const std::string& path) const {
+    const std::filesystem::path fs_path(path);
+
+    if (fs_path.is_absolute()) {
+        return path;
+    }
+
+    const std::filesystem::path fs_pwd(_pwd);
+    return (fs_pwd / path).generic_string();
+}
 
 std::string trim(const std::string &str) {
-    const auto start = std::find_if_not(str.begin(), str.end(), [](unsigned char ch) {
+    const auto start = std::find_if_not(str.begin(), str.end(), [](const unsigned char ch) {
         return std::isspace(ch);
     });
 
-    const auto end = std::find_if_not(str.rbegin(), str.rend(), [](unsigned char ch) {
+    const auto end = std::find_if_not(str.rbegin(), str.rend(), [](const unsigned char ch) {
         return std::isspace(ch);
     }).base();
 
     if (start >= end) {
-        return ""; // Return an empty string if only whitespace is present
+        return "";
     }
 
     return std::string(start, end);
 }
 
-void dip::command_interpreter::save(const std::string &path) {
-    auto p = std::filesystem::path(_pwd) / path;
-    cv::imwrite(p.generic_string(), _output.get());
+void dip::command_interpreter::save(const std::string &path) const {
+    const auto p = qualify(path);
+    cv::imwrite(p, _output.get());
+}
+
+void dip::command_interpreter::load(const std::string &path) const {
+    std::filesystem::path fs_path(path);
+
+    if (fs_path.is_absolute()) {
+        _a.get() = cv::imread(fs_path.generic_string(), cv::IMREAD_COLOR);
+    } else {
+        const std::filesystem::path fs_pwd(_pwd);
+        const auto full = (fs_pwd / path).generic_string();
+        _a.get() = cv::imread(full, cv::IMREAD_COLOR);
+    }
 }
 
 void dip::command_interpreter::cd(const std::string &path) {
-    _pwd = path;
+    std::filesystem::path fs_path(path);
+    std::filesystem::path fs_pwd(_pwd);
+
+    if (fs_path.is_absolute()) {
+        _pwd = path;
+    } else {
+        _pwd = std::filesystem::absolute(fs_pwd / path).generic_string();
+    }
 }
 
-void dip::command_interpreter::add(const cv::Mat &a, const cv::Mat &b) {
+void dip::command_interpreter::ls() {
+    _out_text.clear();
+
+    if (std::filesystem::exists(_pwd)) {
+        for (const auto &file : std::filesystem::directory_iterator(_pwd)) {
+            _out_text.append(file.path().string());
+            _out_text.append("\n");
+        }
+    }
+}
+
+void dip::command_interpreter::add(const cv::Mat &a, const cv::Mat &b) const {
     _output.get() = a + b;
 }
 
-void dip::command_interpreter::sub(const cv::Mat &a, const cv::Mat &b) {
+void dip::command_interpreter::sub(const cv::Mat &a, const cv::Mat &b) const {
     _output.get() = a - b;
 }
 
-void dip::command_interpreter::mul(const cv::Mat &a, const cv::Mat &b) {
+void dip::command_interpreter::mul(const cv::Mat &a, const cv::Mat &b) const {
     _output.get() = a.mul(b);
 }
 
-void dip::command_interpreter::inv(const cv::Mat &a) {
+void dip::command_interpreter::inv(const cv::Mat &a) const {
     bitwise_not(a, _output.get());
 }
 
-void dip::command_interpreter::log(const cv::Mat &a, float base, float c) {
+void dip::command_interpreter::log(const cv::Mat &a, float base, float c) const {
     cv::Mat m;
     a.convertTo(m, CV_32F);
     cv::Mat log_nat;
@@ -55,7 +99,7 @@ void dip::command_interpreter::log(const cv::Mat &a, float base, float c) {
     m.convertTo(_output.get(), CV_8U);
 }
 
-void dip::command_interpreter::pow(const cv::Mat &a, float gamma, float c) {
+void dip::command_interpreter::pow(const cv::Mat &a, float gamma, float c) const {
     cv::Mat m;
     a.convertTo(m, CV_32F);
     cv::pow(m, gamma, m);
@@ -64,26 +108,25 @@ void dip::command_interpreter::pow(const cv::Mat &a, float gamma, float c) {
 }
 
 std::optional<dip::operation> dip::command_interpreter::interpret_command(const std::string &command) {
-    auto tokens = split(command, ' ');
+    split(command);
 
-    std::transform(tokens.begin(), tokens.end(), tokens.begin(), [](const std::string &s) {
-        return trim(s);
-    });
 
-    std::transform(tokens[0].begin(), tokens[0].end(), tokens[0].begin(), [](const unsigned char c) {
-        return std::tolower(c);
-    });
 
-    if (tokens.size() < 2) {
+    if (last_command.empty()) {
         return std::optional<dip::operation>();
     }
 
-    auto load_operands = [&](size_t tokens_i) {
-        auto p1 = std::filesystem::path(_pwd) / tokens[tokens_i++];
-        auto p2 = std::filesystem::path(_pwd) / tokens[tokens_i];
+    std::transform(last_command[0].begin(), last_command[0].end(), last_command[0].begin(), [](const unsigned char c) {
+        return std::tolower(c);
+    });
 
-        cv::Mat m1 = cv::imread(p1.generic_string(), cv::IMREAD_COLOR);
-        cv::Mat m2 = cv::imread(p2.generic_string(), cv::IMREAD_COLOR);
+
+    auto load_operands = [&](size_t lastCommand_i) {
+        const auto p1 = std::filesystem::path(_pwd) / last_command[lastCommand_i++];
+        const auto p2 = std::filesystem::path(_pwd) / last_command[lastCommand_i];
+
+        const cv::Mat m1 = cv::imread(p1.generic_string(), cv::IMREAD_COLOR);
+        const cv::Mat m2 = cv::imread(p2.generic_string(), cv::IMREAD_COLOR);
         const auto max_width = std::max(m1.cols, m2.cols);
         const auto max_height = std::max(m1.rows, m2.rows);
         cv::copyMakeBorder(m1, a, 0, max_height - m1.rows, 0, max_width - m1.cols, cv::BORDER_CONSTANT, 0);
@@ -91,134 +134,94 @@ std::optional<dip::operation> dip::command_interpreter::interpret_command(const 
     };
 
 
-    if (tokens[0] == "cd") {
-        cd(tokens[1]);
-    } else if (tokens[0] == "save") {
-        save(tokens[1]);
-    } else if (tokens[0] == "add") {
-        size_t i = 1;
-        while (tokens[i] != "-i") {
-            i++;
-        }
-
-        load_operands(i + 1);
+    if (last_command[0] == "cd") {
+        cd(last_command[1]);
+    } else if (last_command[0] == "ls") {
+        ls();
+    }else if (last_command[0] == "load") {
+        load(last_command[1]);
+    }else if (last_command[0] == "save") {
+        save(last_command[1]);
+    } else if (last_command[0] == "add") {
+        size_t i = find_param_index("-i");
+        load_operands(i);
         add(a, b);
-
-        i = 0;
-        while (tokens[i] != "-o") {
-            i++;
-        }
-
-        save(tokens[i + 1]);
+        i = find_param_index("-o");
+        save(last_command[i]);
         return operation::add;
-    } else if (tokens[0] == "sub") {
-        size_t i = 1;
-        while (tokens[i] != "-i") {
-            i++;
-        }
-
-        load_operands(i + 1);
+    } else if (last_command[0] == "sub") {
+        size_t i = find_param_index("-i");
+        load_operands(i);
         sub(a, b);
-
-        i = 0;
-        while (tokens[i] != "-o") {
-            i++;
-        }
-
-        save(tokens[i + 1]);
+        i = find_param_index("-o");
+        save(last_command[i]);
         return operation::sub;
-    } else if (tokens[0] == "mul") {
-        size_t i = 1;
-        while (tokens[i] != "-i") {
-            i++;
-        }
-
-        load_operands(i + 1);
+    } else if (last_command[0] == "mul") {
+        size_t i = find_param_index("-i");
+        load_operands(i);
         mul(a, b);
-
-        i = 0;
-        while (tokens[i] != "-o") {
-            i++;
-        }
-
-        save(tokens[i + 1]);
+        i = find_param_index("-o");
+        save(last_command[i]);
         return operation::mul;
-    } else if (tokens[0] == "inv") {
-        size_t i = 1;
-        while (tokens[i] != "-i") {
-            i++;
-        }
-
-        a = cv::imread(tokens[i + 1], cv::IMREAD_COLOR);
-        inv(a);
-
-        i = 0;
-        while (tokens[i] != "-o") {
-            i++;
-        }
-
-        save(tokens[i + 1]);
+    } else if (last_command[0] == "inv") {
+        size_t i = find_param_index("-i");
+        load(last_command[i]);
+        inv(_a);
+        i = find_param_index("-o");
+        save(last_command[i]);
         return operation::negate;
-    } else if (tokens[0] == "log") {
-        size_t i = 1;
-        while (tokens[i] != "-c") {
-            i++;
-        }
-
-        const float c = std::stof(tokens[i + 1]);
-
-        i = 1;
-        while (tokens[i] != "-b") {
-            i++;
-        }
-
-        const float base = std::stof(tokens[i + 1]);
-
-        i = 1;
-        while (tokens[i] != "-i") {
-            i++;
-        }
-
-        a = cv::imread(tokens[i + 1], cv::IMREAD_COLOR);
-        log(a, base, c);
-
-        i = 1;
-        while (tokens[i] != "-o") {
-            i++;
-        }
-
-        save(tokens[i + 1]);
+    } else if (last_command[0] == "log") {
+        size_t i = find_param_index("-c");
+        const float c = std::stof(last_command[i]);
+        i = find_param_index("-b");
+        const float base = std::stof(last_command[i]);
+        i = find_param_index("-i");
+        load(last_command[i]);
+        log(_a, base, c);
+        i = find_param_index("-o");
+        save(last_command[i]);
         return operation::log;
-    } else if (tokens[0] == "pow") {
-        size_t i = 1;
-        while (tokens[i] != "-c") {
-            i++;
-        }
-
-        const float c = std::stof(tokens[i + 1]);
-
-        i = 1;
-        while (tokens[i] != "-gamma") {
-            i++;
-        }
-
-        const float gamma = std::stof(tokens[i + 1]);
-
-        i = 1;
-        while (tokens[i] != "-i") {
-            i++;
-        }
-
-        a = cv::imread(tokens[i + 1], cv::IMREAD_COLOR);
-        pow(a, gamma, c);
-
-        i = 1;
-        while (tokens[i] != "-o") {
-            i++;
-        }
-
-        save(tokens[i + 1]);
+    } else if (last_command[0] == "pow") {
+        size_t i = find_param_index("-c");
+        const float c = std::stof(last_command[i]);
+        i = find_param_index("-gamma");
+        const float gamma = std::stof(last_command[i]);
+        i = find_param_index("-i");
+        load(last_command[i]);
+        pow(_a, gamma, c);
+        i = find_param_index("-o");
+        save(last_command[i]);
         return operation::gamma;
     }
+
     return std::optional<dip::operation>();
+}
+
+size_t dip::command_interpreter::find_param_index(const char *flag) const {
+    size_t i = 1;
+    while (last_command[i] != flag) {
+        i++;
+    }
+    return i+1;
+}
+
+std::vector<std::string> dip::command_interpreter::split(const std::string &str, const char delimiter) {
+    last_command.clear();
+
+    size_t start = 0;
+    size_t end = str.find(delimiter);
+
+    while (end != std::string::npos) {
+        if (auto part = trim(str.substr(start, end - start)); !part.empty()) {
+            last_command.push_back(part);
+        }
+
+        start = end + 1;
+        end = str.find(delimiter, start);
+    }
+    if (const auto part = trim(str.substr(start)); !part.empty()) {
+        last_command.push_back(part);
+    }
+
+    return last_command;
 }

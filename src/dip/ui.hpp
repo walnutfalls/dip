@@ -5,6 +5,8 @@
 #include <boost/signals2.hpp>
 #include "operation.hpp"
 
+#include <filesystem>
+
 
 namespace dip {
 
@@ -16,6 +18,8 @@ namespace dip {
     };
 
     class ui {
+    constexpr static size_t HistoryLength = 8;
+
     public:
         explicit ui(GLFWwindow* window);
         ~ui();
@@ -24,7 +28,8 @@ namespace dip {
         void drawControls();
         void drawConsole();
 
-        bool my_tool_active{};
+        void write_output(const std::string &output);
+
         float my_color[4]{};
         bool bilinear{false};
 
@@ -37,17 +42,29 @@ namespace dip {
         boost::signals2::signal<void(const std::string&)> saveClicked;
         boost::signals2::signal<void(const std::string&)> commandIssued;
 
-        operation operation { operation::split };
+        operation operation { split };
         float log_c {1.f};
         float log_base {2.f};
         float gamma_val {1};
         float gamma_c {1};
         float ccl_sensitivity { 0.5f };
-        connectivity connectivity { connectivity::four };
+        connectivity connectivity { four };
         char command[1024]{};
-        std::string history[3];
-        std::string fullhist;
+        int console_visible { true };
+
+        std::string history[HistoryLength] {
+            "cwd: " + std::filesystem::current_path().string(),
+            "Available commands:",
+            "ls",
+            "cd <path>",
+            "[load|save] <ppm_path>",
+            "[add|sum|mul] -i <ppm_path1> <ppm_path2> -i <out_ppm_path>",
+            "[inv|log|pow] -i <ppm_path1> -o <out_ppm_path>"
+        };
+
+        std::string _full_history;
         GLFWwindow *_window;
+
     };
 }
 
