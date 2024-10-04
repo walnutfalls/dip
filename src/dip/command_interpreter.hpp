@@ -53,8 +53,6 @@ namespace dip {
 
         std::vector<std::string> last_command;
 
-        std::filesystem::directory_iterator _suggestions { std::filesystem::directory_iterator(_pwd)};
-
         size_t find_param_index(const char* flag) const;
 
         std::vector<std::string> split(const std::string &str, char delimiter = ' ');

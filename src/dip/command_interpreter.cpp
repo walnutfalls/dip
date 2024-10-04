@@ -3,11 +3,11 @@
 #include <algorithm>
 
 
-bool is_ws(const std::string& str) {
+bool is_ws(const std::string &str) {
     return std::all_of(str.begin(), str.end(), [](unsigned char c) { return std::isspace(c); });
 }
 
-std::string dip::command_interpreter::qualify(const std::string& path) const {
+std::string dip::command_interpreter::qualify(const std::string &path) const {
     const std::filesystem::path fs_path(path);
 
     if (fs_path.is_absolute()) {
@@ -54,48 +54,33 @@ void dip::command_interpreter::load(const std::string &path) const {
 std::string dip::command_interpreter::next_suggested(const std::string &input) {
     static std::filesystem::directory_iterator end;
 
-    std::filesystem::path fs_pwd(_pwd);
+    const std::filesystem::path fs_pwd(_pwd);
 
     const auto space_ind = input.find_last_of(' ');
     const auto candidate = trim(space_ind == -1 ? input : input.substr(space_ind));
     std::filesystem::path fs_candidate(candidate);
 
-    auto candidate_parent = fs_candidate.parent_path();
+    const auto candidate_parent = fs_candidate.parent_path();
 
     if (candidate_parent.is_absolute() && !std::filesystem::exists(candidate_parent)) {
         return input;
+    } else if (!candidate_parent.is_absolute()) {
+        fs_candidate = fs_pwd / fs_candidate;
     }
 
-    auto iterable_dir = candidate_parent.is_absolute()
-        ? candidate_parent
-        : fs_pwd;
-
-    if (!fs_candidate.is_absolute()) {
-        fs_candidate = std::filesystem::absolute(fs_pwd / fs_candidate);
-    } else if (_suggestions != end && _suggestions->path().parent_path() != iterable_dir) {
-            _suggestions = std::filesystem::directory_iterator(iterable_dir);
-    }
+    const auto iterable_dir = candidate_parent.is_absolute()
+                                  ? candidate_parent
+                                  : fs_pwd;
 
     if (std::filesystem::exists(iterable_dir)) {
-        if (_suggestions == end) {
-            _suggestions = std::filesystem::directory_iterator(iterable_dir);
-        }
-
-        const std::filesystem::path original = _suggestions->path();
-
-        do {
-            if (_suggestions == end) {
-                _suggestions = std::filesystem::directory_iterator(iterable_dir);
-            }
-            const auto s = _suggestions->path().string();
-
+        for (auto it = std::filesystem::directory_iterator(iterable_dir); it != end; ++it) {
+            const auto s = it->path().string();
             if (s.rfind(fs_candidate.string(), 0) == 0) {
                 std::string in = input;
-                in.replace(space_ind+1, candidate.size(), s);
+                in.replace(space_ind + 1, candidate.size(), s);
                 return in;
             }
-            ++_suggestions;
-        } while (_suggestions == end || _suggestions->path() != original);
+        }
     }
 
     return input;
@@ -122,7 +107,6 @@ void dip::command_interpreter::cd(const std::string &path) {
 
     if (std::filesystem::exists(_pwd)) {
         _pwd = abspath;
-        _suggestions = std::filesystem::directory_iterator(_pwd);
     }
 }
 
@@ -130,7 +114,7 @@ void dip::command_interpreter::ls() {
     _out_text.clear();
 
     if (std::filesystem::exists(_pwd)) {
-        for (const auto &file : std::filesystem::directory_iterator(_pwd)) {
+        for (const auto &file: std::filesystem::directory_iterator(_pwd)) {
             _out_text.append(file.path().string());
             _out_text.append("\n");
         }
@@ -194,7 +178,7 @@ size_t dip::command_interpreter::find_param_index(const char *flag) const {
     while (last_command[i] != flag) {
         i++;
     }
-    return i+1;
+    return i + 1;
 }
 
 std::vector<std::string> dip::command_interpreter::split(const std::string &str, const char delimiter) {
