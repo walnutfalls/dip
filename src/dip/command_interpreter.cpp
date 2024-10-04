@@ -51,14 +51,78 @@ void dip::command_interpreter::load(const std::string &path) const {
     }
 }
 
-void dip::command_interpreter::cd(const std::string &path) {
-    std::filesystem::path fs_path(path);
+std::string dip::command_interpreter::next_suggested(const std::string &input) {
+    static std::filesystem::directory_iterator end;
+
     std::filesystem::path fs_pwd(_pwd);
 
-    if (fs_path.is_absolute()) {
-        _pwd = path;
-    } else {
-        _pwd = std::filesystem::absolute(fs_pwd / path).generic_string();
+    const auto space_ind = input.find_last_of(' ');
+    const auto candidate = trim(space_ind == -1 ? input : input.substr(space_ind));
+    std::filesystem::path fs_candidate(candidate);
+
+    auto candidate_parent = fs_candidate.parent_path();
+
+    if (candidate_parent.is_absolute() && !std::filesystem::exists(candidate_parent)) {
+        return input;
+    }
+
+    auto iterable_dir = candidate_parent.is_absolute()
+        ? candidate_parent
+        : fs_pwd;
+
+    if (!fs_candidate.is_absolute()) {
+        fs_candidate = std::filesystem::absolute(fs_pwd / fs_candidate);
+    } else if (_suggestions != end && _suggestions->path().parent_path() != iterable_dir) {
+            _suggestions = std::filesystem::directory_iterator(iterable_dir);
+    }
+
+    if (std::filesystem::exists(iterable_dir)) {
+        if (_suggestions == end) {
+            _suggestions = std::filesystem::directory_iterator(iterable_dir);
+        }
+
+        const std::filesystem::path original = _suggestions->path();
+
+        do {
+            if (_suggestions == end) {
+                _suggestions = std::filesystem::directory_iterator(iterable_dir);
+            }
+            const auto s = _suggestions->path().string();
+
+            if (s.rfind(fs_candidate.string(), 0) == 0) {
+                std::string in = input;
+                in.replace(space_ind+1, candidate.size(), s);
+                return in;
+            }
+            ++_suggestions;
+        } while (_suggestions == end || _suggestions->path() != original);
+    }
+
+    return input;
+}
+
+
+void dip::command_interpreter::load_operands(size_t loc) {
+    const auto p1 = std::filesystem::path(_pwd) / last_command[loc++];
+    const auto p2 = std::filesystem::path(_pwd) / last_command[loc];
+
+    const cv::Mat m1 = cv::imread(p1.generic_string(), cv::IMREAD_COLOR);
+    const cv::Mat m2 = cv::imread(p2.generic_string(), cv::IMREAD_COLOR);
+    const auto max_width = std::max(m1.cols, m2.cols);
+    const auto max_height = std::max(m1.rows, m2.rows);
+    cv::copyMakeBorder(m1, a, 0, max_height - m1.rows, 0, max_width - m1.cols, cv::BORDER_CONSTANT, 0);
+    cv::copyMakeBorder(m2, b, 0, max_height - m2.rows, 0, max_width - m2.cols, cv::BORDER_CONSTANT, 0);
+}
+
+void dip::command_interpreter::cd(const std::string &path) {
+    const std::filesystem::path fs_path(path);
+    const std::filesystem::path fs_pwd(_pwd);
+
+    const auto abspath = fs_path.is_absolute() ? path : std::filesystem::absolute(fs_pwd / path).generic_string();
+
+    if (std::filesystem::exists(_pwd)) {
+        _pwd = abspath;
+        _suggestions = std::filesystem::directory_iterator(_pwd);
     }
 }
 
@@ -110,8 +174,6 @@ void dip::command_interpreter::pow(const cv::Mat &a, float gamma, float c) const
 std::optional<dip::operation> dip::command_interpreter::interpret_command(const std::string &command) {
     split(command);
 
-
-
     if (last_command.empty()) {
         return std::optional<dip::operation>();
     }
@@ -120,78 +182,8 @@ std::optional<dip::operation> dip::command_interpreter::interpret_command(const 
         return std::tolower(c);
     });
 
-
-    auto load_operands = [&](size_t lastCommand_i) {
-        const auto p1 = std::filesystem::path(_pwd) / last_command[lastCommand_i++];
-        const auto p2 = std::filesystem::path(_pwd) / last_command[lastCommand_i];
-
-        const cv::Mat m1 = cv::imread(p1.generic_string(), cv::IMREAD_COLOR);
-        const cv::Mat m2 = cv::imread(p2.generic_string(), cv::IMREAD_COLOR);
-        const auto max_width = std::max(m1.cols, m2.cols);
-        const auto max_height = std::max(m1.rows, m2.rows);
-        cv::copyMakeBorder(m1, a, 0, max_height - m1.rows, 0, max_width - m1.cols, cv::BORDER_CONSTANT, 0);
-        cv::copyMakeBorder(m2, b, 0, max_height - m2.rows, 0, max_width - m2.cols, cv::BORDER_CONSTANT, 0);
-    };
-
-
-    if (last_command[0] == "cd") {
-        cd(last_command[1]);
-    } else if (last_command[0] == "ls") {
-        ls();
-    }else if (last_command[0] == "load") {
-        load(last_command[1]);
-    }else if (last_command[0] == "save") {
-        save(last_command[1]);
-    } else if (last_command[0] == "add") {
-        size_t i = find_param_index("-i");
-        load_operands(i);
-        add(a, b);
-        i = find_param_index("-o");
-        save(last_command[i]);
-        return operation::add;
-    } else if (last_command[0] == "sub") {
-        size_t i = find_param_index("-i");
-        load_operands(i);
-        sub(a, b);
-        i = find_param_index("-o");
-        save(last_command[i]);
-        return operation::sub;
-    } else if (last_command[0] == "mul") {
-        size_t i = find_param_index("-i");
-        load_operands(i);
-        mul(a, b);
-        i = find_param_index("-o");
-        save(last_command[i]);
-        return operation::mul;
-    } else if (last_command[0] == "inv") {
-        size_t i = find_param_index("-i");
-        load(last_command[i]);
-        inv(_a);
-        i = find_param_index("-o");
-        save(last_command[i]);
-        return operation::negate;
-    } else if (last_command[0] == "log") {
-        size_t i = find_param_index("-c");
-        const float c = std::stof(last_command[i]);
-        i = find_param_index("-b");
-        const float base = std::stof(last_command[i]);
-        i = find_param_index("-i");
-        load(last_command[i]);
-        log(_a, base, c);
-        i = find_param_index("-o");
-        save(last_command[i]);
-        return operation::log;
-    } else if (last_command[0] == "pow") {
-        size_t i = find_param_index("-c");
-        const float c = std::stof(last_command[i]);
-        i = find_param_index("-gamma");
-        const float gamma = std::stof(last_command[i]);
-        i = find_param_index("-i");
-        load(last_command[i]);
-        pow(_a, gamma, c);
-        i = find_param_index("-o");
-        save(last_command[i]);
-        return operation::gamma;
+    if (handlers.find(last_command[0]) != handlers.end()) {
+        return handlers[last_command[0]]();
     }
 
     return std::optional<dip::operation>();

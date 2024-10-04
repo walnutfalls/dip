@@ -4,10 +4,11 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 
+
 #include <os/browse_dialog.hpp>
 
 dip::ui::ui(GLFWwindow *window): _window(window) {
-    memset(command, 0, 1024 * sizeof(char));
+    //memset(command, 0, 1024 * sizeof(char));
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -163,11 +164,23 @@ void dip::ui::drawConsole() {
     const float fullWidth = ImGui::GetContentRegionAvail().x;
     ImGui::SetNextItemWidth(fullWidth);
 
-    if(ImGui::InputText("##", command, 1023, ImGuiInputTextFlags_EnterReturnsTrue)) {
-        const std::string cmd(command);
-        commandIssued(cmd);
+    if(ImGui::InputText("##", command, 1024, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackAlways,
+    [](ImGuiInputTextCallbackData* data) -> int {
+        const auto self = static_cast<dip::ui*>(data->UserData);
+
+        if (self->_dirty) {
+            strcpy(data->Buf, self->command);
+            data->BufDirty = true;
+            data->BufTextLen = strlen(data->Buf);
+            self->_dirty = false;
+            data->CursorPos = data->BufTextLen;
+        }
+
+        return 0;
+    }, this)) {
+        commandIssued(command);
         command[0] = '\0';
-        write_output(cmd);
+        write_output(command);
     }
 
     if (ImGui::IsItemHovered() || (!ImGui::IsAnyItemActive() && !ImGui::IsMouseClicked(0)))
@@ -186,6 +199,11 @@ void dip::ui::drawConsole() {
     ImGui::EndChild();
 
     ImGui::End();
+}
+
+void dip::ui::set_command(const std::string &cmd) {
+    strncpy_s(command, cmd.c_str(), cmd.size());
+    _dirty = true;
 }
 
 void dip::ui::write_output(const std::string &output) {

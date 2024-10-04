@@ -1,23 +1,18 @@
 #include <unordered_map>
-
 #include <os/sleeper.hpp>
-
 #include <core/startup_config.hpp>
 #include <core/glfw_context.hpp>
 #include <core/input_manager.hpp>
 #include <core/frame_limiter.hpp>
-
 #include <render/renderer.hpp>
 #include <render/shader_program.hpp>
 #include <render/quad_mesh.hpp>
 #include <render/vram_texture.hpp>
-
+#include <render/pass.hpp>
 #include <util/read_file.hpp>
 #include <util/string_table.hpp>
-
 #include <opencv2/core.hpp>
 
-#include <render/pass.hpp>
 
 #include "ui.hpp"
 #include "connectivity.hpp"
@@ -45,10 +40,14 @@ int main() {
     render::shader_program shader(vert, frag);
     render::pass pass(shader);
 
+    cv::Mat& a = app.state().mat1;
+    cv::Mat& b = app.state().mat2;
+    cv::Mat& output = app.state().mat1;
+
     render::vram_texture gpu_textures[] {
-        {app.a().data, app.a().cols, app.a().rows},
-        {app.b().data, app.b().cols, app.b().rows},
-        {app.b().data, app.b().cols, app.b().rows}
+        {a.data, a.cols, a.rows},
+        {b.data, b.cols, b.rows},
+        {b.data, b.cols, b.rows}
     };
 
     render::quad_mesh<vertex_format::vertex_PTx> quad;
