@@ -20,6 +20,18 @@
             }
           },
           {
+            "id": "bffa2c5a2717ea33",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Histogram Equilization.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
             "id": "693e12750838a4ef",
             "type": "leaf",
             "state": {
@@ -55,7 +67,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -121,7 +134,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "README.md",
+                "file": "Histogram Equilization.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -138,7 +151,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "README.md",
+                "file": "Histogram Equilization.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -161,7 +174,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "README.md"
+                "file": "Histogram Equilization.md"
               }
             }
           }
@@ -181,11 +194,12 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "8c88bf6f462430d8",
+  "active": "bffa2c5a2717ea33",
   "lastOpenFiles": [
+    "README.md",
+    "Histogram Equilization.md",
     "Pixel Relationships.md",
     "Morphological Image Processing.md",
-    "README.md",
     "README 1.md",
     "README.md~",
     "Welcome.md"

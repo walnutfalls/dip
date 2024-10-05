@@ -87,7 +87,7 @@ int main() {
         renderer.update(width, height);
         shader.bind();
 
-        if (app.ui().operation == dip::operation::split) {
+        if (app.ui().split_view) {
             gl::glViewport(0, 0, width / 2, height);
             mat_mesh.material.textures.insert_or_assign("texture0", gpu_textures[0].gltexture());
             pass.draw(render_list);

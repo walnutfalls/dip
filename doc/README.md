@@ -1,5 +1,6 @@
 # Technologies Being Used
 This is a CMake project, using [vcpkg]([microsoft/vcpkg: C++ Library Manager for Windows, Linux, and MacOS (github.com)](https://github.com/microsoft/vcpkg)) for dependency management. See `vcpkg.json` for a list of libraries that this project depends on. 
+
 ## Building
 `Build.bat` in the root directory should product a `build/dip.exe` program. 
 
@@ -12,19 +13,48 @@ This script:
 * Visual studio version 2022 or 2019 with C++ features installed.
 * C++17
 * `Build.bat` tries to use 2022, 2019 or 2017. Anything older assuming won't work.
+
 ## Features
-Please expand the ImGui panels in the upper left corner of the app! They
-start out small, but are draggable and sizeable. 
 
-There is a controls panel with all the operations related controls. 
+The application state has 3 images: A, B, OUTPUT. Operations require either 1 or 2 operands.
+For one operand operations, A is the source.
+Results are output always to OUTPUT. 
 
+There's going to be a Operands and Output views, where  operands shows a split screen view of A and B.
 
-There is a console panel with the basic operations outline in assignment.
+The output view will show OUTPUT. 
+
+### Controls (PP1)
+
+This will have various controls for performing operations for A and B, and writing the result to output. 
+It will also Have controls for switching views. 
+
+### Console (PP1)
+
+This is a custom console with a bunch of commands available.
+
+`cd`, `ls` are implemented. Tab completion has very basic implementation.
 
 ```
-cd ~/Test-images
-add -i cup-12.ppm beetle-13.ppm -o output.ppm
+[load|save] <ppm_path>"
+[add|sum|mul] -i <ppm_path1> <ppm_path2> -i <out_ppm_path>
+inv -i <ppm_path1> -o <out_ppm_path>
+log -i <ppm_path1> -o <out_ppm_path> -c <const> -b <base>
+pow -i <ppm_path1> -o <out_ppm_path> -c <const> -gamma <gamma>
+ ```
+
+### Histograms (PP2)
+
+Can manually equalize A and B, and do a histogram match from A to B.
+
+### Filters
+
+This is a UI for blur and smoothing
+
 ```
+Filter->Blur->Gaussian Blur
+```
+
 
 ## Platforms
 Windows. 

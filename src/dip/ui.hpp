@@ -16,6 +16,14 @@ namespace dip {
         m,
     };
 
+    enum histogram_op {
+        a,
+        b,
+        output,
+        match
+    };
+
+
     class ui {
         constexpr static size_t HistoryLength = 16;
 
@@ -26,13 +34,19 @@ namespace dip {
 
         void draw();
 
-        void drawControls();
+        void drawControls(int width, int height);
+        void drawControls2(int width, int height);
 
         int InputTextCallback(ImGuiInputTextCallbackData *data);
 
-        void drawConsole();
+        void drawConsole(int width, int height);
 
-        void set_command(const std::string& cmd);
+        void drawHistograms();
+
+        void drawFilter();
+
+
+        void set_command(const std::string &cmd);
 
         [[nodiscard]] std::string get_command() const { return command; }
 
@@ -49,6 +63,9 @@ namespace dip {
         boost::signals2::signal<void(const std::string &)> saveClicked;
         boost::signals2::signal<void(const std::string &)> commandIssued;
 
+        boost::signals2::signal<void(histogram_op)> histogram_equalize;
+
+        bool split_view{true};
         operation operation{split};
         float log_c{1.f};
         float log_base{2.f};
@@ -57,7 +74,13 @@ namespace dip {
         float ccl_sensitivity{0.5f};
         connectivity connectivity{four};
 
+        float histogramA[3][256]{};
+        float histogramB[3][256]{};
+        float histogramOut[3][256]{};
+
         int console_visible{true};
+
+        int kernel_size{3};
 
         std::string history[HistoryLength]{
             "cwd: " + std::filesystem::current_path().string(),
@@ -77,6 +100,7 @@ namespace dip {
     private:
         char command[1024]{'\0'};
 
-        bool _dirty { false };
+
+        bool _dirty{false};
     };
 }

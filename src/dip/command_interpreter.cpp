@@ -55,7 +55,6 @@ std::string dip::command_interpreter::next_suggested(const std::string &input) {
     static std::filesystem::directory_iterator end;
 
     const std::filesystem::path fs_pwd(_pwd);
-
     const auto space_ind = input.find_last_of(' ');
     const auto candidate = trim(space_ind == -1 ? input : input.substr(space_ind));
     std::filesystem::path fs_candidate(candidate);
@@ -64,7 +63,8 @@ std::string dip::command_interpreter::next_suggested(const std::string &input) {
 
     if (candidate_parent.is_absolute() && !std::filesystem::exists(candidate_parent)) {
         return input;
-    } else if (!candidate_parent.is_absolute()) {
+    }
+    if (!candidate_parent.is_absolute()) {
         fs_candidate = fs_pwd / fs_candidate;
     }
 

@@ -28,9 +28,6 @@ namespace dip {
 
         void pow(const cv::Mat &a, float gamma, float c) const;
 
-
-        [[nodiscard]] std::string qualify(const std::string &path) const;
-
         void save(const std::string &path) const;
 
         void load(const std::string& path) const;
@@ -43,6 +40,13 @@ namespace dip {
         [[nodiscard]] const std::string &out_text() const { return _out_text; }
 
     private:
+        size_t find_param_index(const char* flag) const;
+        std::vector<std::string> split(const std::string &str, char delimiter = ' ');
+        void load_operands(size_t loc);
+
+        [[nodiscard]] std::string qualify(const std::string &path) const;
+
+
         std::reference_wrapper<cv::Mat> _a;
         std::reference_wrapper<cv::Mat> _output;
         std::string _pwd{std::filesystem::current_path().string()};
@@ -52,12 +56,6 @@ namespace dip {
         cv::Mat b;
 
         std::vector<std::string> last_command;
-
-        size_t find_param_index(const char* flag) const;
-
-        std::vector<std::string> split(const std::string &str, char delimiter = ' ');
-
-        void load_operands(size_t loc);
 
         std::unordered_map<std::string, std::function<std::optional<operation>()>> handlers = {
             { "cd", [&](){
