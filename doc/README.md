@@ -47,6 +47,29 @@ pow -i <ppm_path1> -o <out_ppm_path> -c <const> -gamma <gamma>
 
 Can manually equalize A and B, and do a histogram match from A to B.
 
+#### Filling the gap in G_inv
+
+In order to perform histogram patching, we calculate the cumulative T table for texture B,
+which is referred to as G in the book. Then, we calcualte the inverse function - all the
+[key, value] pairs in G become [value, key] paris in G_inv. 
+
+At the end of this process, there are a lot of intensities which are missing as values from G_inv. 
+
+If nothing is done, there is noise scattered throughout the result image.
+
+In this app, we interpolate linearly between values in the lookup. After computing G_inv, 
+we loop through it and replace any zeroes like this:
+
+```
+// find the nearest mapping, and interpolate
+//| 4 | 0 | 0 | 0 | 0 | 9 |
+//  0   1  ^2   3   4   5
+// range = 5-0=5, 
+// weigh non-0 neighbors by distance from i: (1-2/5)*4 + (1-3/5) * 9
+```
+
+
+
 ### Filters
 
 This is a UI for blur and smoothing

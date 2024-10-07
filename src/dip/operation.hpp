@@ -2,7 +2,6 @@
 
 namespace dip {
     enum operation {
-        split,
         add,
         sub,
         mul,

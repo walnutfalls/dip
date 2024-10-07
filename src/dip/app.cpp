@@ -128,6 +128,7 @@ void dip::app::handle_op(const operation op) {
                 it->second.set_sensitivity(_ui.ccl_sensitivity);
                 _state.output = it->second.build_labels_map(a);
                 resultChanged(_state.output);
+                compute_histograms();
             }
         }
         break;
@@ -211,7 +212,7 @@ void dip::app::handle_equalize(histogram_op target) {
 void dip::app::hist_match_a_b() {
     compute_histograms();
 
-    _state.output = _state.mat1;
+    _state.output = _state.mat1.clone();
     equalize(_state.output, _state.mat1_hist_rgb);
 
     const float num_pixels = static_cast<float>(_state.mat2.rows) * static_cast<float>(_state.mat2.cols);
@@ -222,15 +223,7 @@ void dip::app::hist_match_a_b() {
 
     _state.output.forEach<cv::Vec3b>([&](cv::Vec3b &color, const int* position) -> void {
         for (int i = 0; i < 3; i++) {
-            auto s = color[i];
-
-            const float value = G_inv[i].at<float>(s);
-
-            if (value != 0) {
-                color[i] = static_cast<uchar>(value);
-            } else if (color[i] != 0) {
-                G_inv_fill_interpolate<uchar>(color[i], G_inv[i]);
-            }
+            color[i] = static_cast<uchar>(G_inv[i].at<float>(color[i]));
         }
     });
 
@@ -267,13 +260,19 @@ cv::Mat dip::app::eq_histogram(cv::Mat hist, float num_pixels) {
 }
 
 
-cv::Mat dip::app::eq_histogram_inv(cv::Mat hist, const float num_pixels) {
+cv::Mat dip::app::eq_histogram_inv(const cv::Mat &hist, const float num_pixels) {
     cv::Mat T = eq_histogram(hist, num_pixels);
-    cv::Mat G (hist.rows, hist.cols, CV_32F, cv::Scalar(0));
+    cv::Mat G_inv (hist.rows, hist.cols, CV_32F, cv::Scalar(0));
 
-    T.forEach<float>([&](float &color, const int* position) -> void {
-        G.at<float>(static_cast<int>(color)) = static_cast<float>(*position);
+    T.forEach<float>([&](const float &color, const int* position) -> void {
+        G_inv.at<float>(static_cast<int>(color)) = static_cast<float>(*position);
     });
 
-    return G;
+    for (int i = 0; i < G_inv.rows; i++) {
+        if (G_inv.at<float>(i) == 0.f) {
+            G_inv.at<float>(i) = G_inv_fill_interpolate(i, G_inv);
+        }
+    }
+
+    return G_inv;
 }

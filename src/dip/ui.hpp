@@ -66,7 +66,7 @@ namespace dip {
         boost::signals2::signal<void(histogram_op)> histogram_equalize;
 
         bool split_view{true};
-        operation operation{split};
+        operation operation{add};
         float log_c{1.f};
         float log_base{2.f};
         float gamma_val{1};

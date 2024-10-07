@@ -73,12 +73,9 @@ void dip::ui::drawControls(int width, int height) {
     }
 
     ImGui::Checkbox("Bilinear", &bilinear);
+    ImGui::Checkbox("Operands/Output toggle", &split_view);
 
-    if (ImGui::RadioButton("Split", operation == split)) {
-        operation = split;
-        split_view = true;
-        opChanged(operation);
-    }
+
     if (ImGui::RadioButton("Add", operation == add)) {
         operation = add;
         split_view = false;

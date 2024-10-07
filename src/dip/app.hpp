@@ -13,28 +13,26 @@
 #include "command_interpreter.hpp"
 
 namespace dip {
-
-    template <typename Tch>
-    void G_inv_fill_interpolate(Tch& s, const cv::Mat& G_inv) {
+    inline float G_inv_fill_interpolate(const int index, const cv::Mat& G_inv) {
         // find the nearest mapping, and interpolate
         //| 4 | 0 | 0 | 0 | 0 | 9 |
         //  0   1  ^2   3   4   5
         //  range=5, we want: (1-2/5)*4 + (1-3/5) * 9
-        int left = s;
-        int right = s;
+        int left = index;
+        int right = index;
 
-        while (right < G_inv.rows && G_inv.at<float>(right) == 0) {
+        while (right < G_inv.rows-1 && G_inv.at<float>(right) == 0) {
             ++right;
         }
 
-        while (left >= 0 && G_inv.at<float>(left) == 0) {
+        while (left > 0 && G_inv.at<float>(left) == 0) {
             --left;
         }
 
         const auto range = static_cast<float>(right - left);
-        const float lc = 1.f - static_cast<float>(s - left)/range;
-        const float rc = 1.f - static_cast<float>(right - s)/range;
-        s = cvRound(lc * G_inv.at<float>(left) + rc * G_inv.at<float>(right));
+        const float lc = 1.f - static_cast<float>(index - left)/range;
+        const float rc = 1.f - static_cast<float>(right - index)/range;
+        return lc * G_inv.at<float>(left) + rc * G_inv.at<float>(right);
     }
 
     struct app_state {
@@ -135,6 +133,6 @@ namespace dip {
         static void equalize(cv::Mat &image, const std::vector<cv::Mat> &histograms);
         static cv::Mat eq_histogram(cv::Mat hist, float num_pixels);
 
-        static cv::Mat eq_histogram_inv(cv::Mat hist, float num_pixels);
+        static cv::Mat eq_histogram_inv(const cv::Mat &hist, float num_pixels);
     };
 }
