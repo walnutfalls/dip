@@ -11,7 +11,7 @@ set (RENDERER_SOURCE_FILES
         ${PROJECT_SOURCE_DIR}/src/render/pass.cpp)
 
 add_library(renderer ${RENDERER_SOURCE_FILES})
-target_include_directories(renderer PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(renderer PUBLIC ${PROJECT_SOURCE_DIR}/src)
 target_link_libraries(renderer PUBLIC
         glbinding::glbinding
         glbinding::glbinding-aux

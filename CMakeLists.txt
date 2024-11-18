@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 project(dip)
 
+message ("${VCPKG_PLATFORM_TOOLSET}")
 
 set(CMAKE_CXX_STANDARD 17)
 set(OpenCV_DIR "${VCPKG_INSTALLED_DIR}/x64-windows/share/opencv4")

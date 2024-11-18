@@ -1,4 +1,3 @@
-#include <unordered_map>
 #include <os/sleeper.hpp>
 #include <core/startup_config.hpp>
 #include <core/glfw_context.hpp>
@@ -15,8 +14,6 @@
 
 
 #include "ui.hpp"
-#include "connectivity.hpp"
-#include "command_interpreter.hpp"
 #include "app.hpp"
 
 
@@ -29,47 +26,64 @@ int main() {
     core::glfw_context context(config);
     core::input_manager input_manager(context.window());
     core::frame_timer frame_timer;
-    core::frame_limiter frame_limiter(frame_timer, 60, sleeper);
+    core::frame_limiter frame_limiter(frame_timer, 30, sleeper);
 
     dip::app app(context, input_manager);
 
-    render::renderer renderer;
 
+    render::renderer renderer;
     std::string vert = util::read_file("assets/shaders/basic.vert");
     std::string frag = util::read_file("assets/shaders/basic.frag");
     render::shader_program shader(vert, frag);
     render::pass pass(shader);
+    render::quad_mesh<vertex_format::vertex_PTx> quad;
 
     cv::Mat& a = app.state().mat1;
     cv::Mat& b = app.state().mat2;
-    cv::Mat& output = app.state().mat1;
-
     render::vram_texture gpu_textures[] {
         {a.data, a.cols, a.rows},
         {b.data, b.cols, b.rows},
         {b.data, b.cols, b.rows}
     };
-
-    render::quad_mesh<vertex_format::vertex_PTx> quad;
-
     render::render_list render_list;
     auto&[meshes] = render_list.items.emplace_back();
     auto& mat_mesh = meshes.emplace_back(quad.mesh);
     mat_mesh.material.textures.insert_or_assign("texture0", gpu_textures[0].gltexture());
 
+    // https://stackoverflow.com/questions/16809833/opencv-image-loading-for-opengl-texture
+    // OpenCV has opengl interop, but needs to be built with special flag, maybe that's better?
+    // https://docs.opencv.org/4.x/d2/d3c/group__core__opengl.html
     auto aListener = app.aChanged.connect([&](const cv::Mat& m) {
-        gpu_textures[0].rebuffer(m.data, m.cols, m.rows);
+        gpu_textures[0].rebuffer(
+            m.data,
+            m.rows,
+            m.cols,
+            (m.step & 3) ? 1 : 4,
+            m.step/m.elemSize());
     });
     auto bListener = app.bChanged.connect([&](const cv::Mat& m) {
-        gpu_textures[1].rebuffer(m.data, m.cols, m.rows);
+        gpu_textures[1].rebuffer(
+            m.data,
+            m.cols,
+            m.rows,
+            (m.step & 3) ? 1 : 4,
+            m.step/m.elemSize());
     });
     auto outListener = app.resultChanged.connect([&](const cv::Mat& m) {
-        gpu_textures[2].rebuffer(m.data, m.cols, m.rows);
+        gpu_textures[2].rebuffer(
+            m.data,
+            m.cols,
+            m.rows,
+            (m.step & 3) ? 1 : 4,
+            m.step/m.elemSize());
     });
+
 
     while (!glfwWindowShouldClose(context.window())) {
         frame_timer.start();
 
+        int width, height;
+        glfwGetWindowSize(context.window(), &width, &height);
         glfwPollEvents();
 
         input_manager.update();
@@ -82,8 +96,6 @@ int main() {
             }
         }
 
-        int width, height;
-        glfwGetWindowSize(context.window(), &width, &height);
         renderer.update(width, height);
         shader.bind();
 

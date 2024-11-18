@@ -1,9 +1,0 @@
-Package: boost-throw-exception
-Version: 1.85.0
-Port-Version: 1
-Depends: boost-assert, boost-cmake, boost-config, boost-headers
-Architecture: x64-windows
-Multi-Arch: same
-Abi: 14b76e93df848dd22a2bff4517b660fc5de2aaf1fcde3e8186079130a5f55091
-Description: Boost throw_exception module
-Status: install ok installed

@@ -10,6 +10,7 @@
 #include "connectivity.hpp"
 #include "ui.hpp"
 #include "ccl.hpp"
+#include "dft.hpp"
 #include "command_interpreter.hpp"
 
 namespace dip {
@@ -70,7 +71,7 @@ namespace dip {
 
         app_state _state{};
 
-        std::unordered_map<connectivity, dip::ccl> label_makers{
+        std::unordered_map<connectivity, ccl> label_makers{
             {four, {N4_connectivity, false, 0.5f}},
             {eight, {N8_connectivity, false, 0.5f}},
             {m, {N4_connectivity, true, 0.5f}},
@@ -79,16 +80,18 @@ namespace dip {
         command_interpreter interpreter{_state.mat1, _state.output};
 
         boost::signals2::connection ppm1Listener{
-            _ui.ppm1Changed.connect([&](const std::string &path) {
-                _state.mat1 = cv::imread(path, cv::IMREAD_COLOR);
-                aChanged(_state.mat1);
+            _ui.ppm1Changed.connect([this](const std::string &path) {
+                this->_state.mat1 = cv::imread(path, cv::IMREAD_COLOR);
+                this->compute_histograms();
+                this->aChanged(_state.mat1);
             })
         };
 
         boost::signals2::connection ppm2Listener{
-            _ui.ppm2Changed.connect([&](const std::string &path) {
-                _state.mat2 = cv::imread(path, cv::IMREAD_COLOR);
-                bChanged(_state.mat2);
+            _ui.ppm2Changed.connect([this](const std::string &path) {
+                this->_state.mat2 = cv::imread(path, cv::IMREAD_COLOR);
+                this->compute_histograms();
+                this->bChanged(_state.mat2);
             })
         };
 
@@ -116,23 +119,43 @@ namespace dip {
             })
         };
 
-        std::vector<boost::signals2::connection> _listeners;
-
-        std::function<void(cv::Vec3b&, const cv::Mat&)> hist_match_gap_fills[1] {
-            {
-
-            }
+        boost::signals2::connection gaussianListener{
+            _ui.run_gaussian.connect([this](int kernel_size, float stddev) {
+                this->run_gaussian(kernel_size, stddev);
+            })
         };
+
+        boost::signals2::connection sobelListener{
+            _ui.run_sobel.connect([this](int sobel_factor) {
+                this->run_sobel(sobel_factor);
+            })
+        };
+
+        boost::signals2::connection unsharpListener{
+            _ui.run_unsharp.connect([this](int unsharp_k, int kernel_size, float stddev) {
+                this->run_unsharp(unsharp_k, kernel_size, stddev);
+            })
+        };
+
+        std::vector<boost::signals2::connection> _listeners;
 
         void handle_op(operation op);
         void handle_cmd(const std::string &cmd);
         void compute_histograms();
         void handle_equalize(histogram_op target);
         void hist_match_a_b();
+        void run_gaussian(int kernel_size, float stddev);
+        void run_sobel(int c);
+        void run_unsharp(int c, int kernel_size, float stddev);
+
+        static cv::Mat convolve(const cv::Mat& img, cv::Mat kernel);
 
         static void equalize(cv::Mat &image, const std::vector<cv::Mat> &histograms);
         static cv::Mat eq_histogram(cv::Mat hist, float num_pixels);
 
         static cv::Mat eq_histogram_inv(const cv::Mat &hist, float num_pixels);
+
+        static cv::Mat gaussian_kernel(int kernel_size, float stddev);
+        static std::pair<cv::Mat, cv::Mat> sobel_kernels(int c = 2);
     };
 }

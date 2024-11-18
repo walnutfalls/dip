@@ -1,4 +1,4 @@
-#include <os/browse_dialog.hpp>
+#include "browse_dialog.hpp"
 
 #ifdef __APPLE__
 #include "TargetConditionals.h"

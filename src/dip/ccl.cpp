@@ -74,7 +74,7 @@ void dip::ccl::traverse_region(
             }
         }
 
-        if (_m_adjacency_check) {
+        if (_adjacency_check) {
             for (const auto &p: Nd_connectivity) {
                 std::pair neighbor{coord.first, p.second + coord.second};
 
@@ -99,4 +99,14 @@ void dip::ccl::traverse_region(
             }
         }
     }
+}
+
+cv::Vec3b dip::ccl::rand_color() {
+    auto gen = [&]() {
+        std::uniform_int_distribution<unsigned short> dist_int(0, 255);
+        return static_cast<std::uint8_t>(dist_int(_rng));
+    };
+
+    cv::Vec3b output(gen(), gen(), gen());
+    return output;
 }

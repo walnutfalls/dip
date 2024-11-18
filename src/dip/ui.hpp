@@ -34,8 +34,8 @@ namespace dip {
 
         void draw();
 
-        void drawControls(int width, int height);
-        void drawControls2(int width, int height);
+        void drawControls();
+
 
         int InputTextCallback(ImGuiInputTextCallbackData *data);
 
@@ -65,6 +65,11 @@ namespace dip {
 
         boost::signals2::signal<void(histogram_op)> histogram_equalize;
 
+        boost::signals2::signal<void(int, float)> run_gaussian;
+        boost::signals2::signal<void(int)> run_sobel;
+        boost::signals2::signal<void(int, int, float)> run_unsharp;
+
+
         bool split_view{true};
         operation operation{add};
         float log_c{1.f};
@@ -81,6 +86,11 @@ namespace dip {
         int console_visible{true};
 
         int kernel_size{3};
+        float gaussian_sigma{1};
+        int sobel_factor{1};
+        int unsharp_k{1};
+
+        int fft_bins{1};
 
         std::string history[HistoryLength]{
             "cwd: " + std::filesystem::current_path().string(),

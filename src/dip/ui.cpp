@@ -35,26 +35,17 @@ void dip::ui::draw() {
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    drawControls(width, height);
-    drawControls2(width, height);
-
-    drawConsole(width, height);
-
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-}
-
-void dip::ui::drawControls(int width, int height) {
     ImGui::SetNextWindowPos({0, 0});
-    ImGui::SetNextWindowSize({width / 4.f, height / 2.f});
-
+    ImGui::SetNextWindowSize({static_cast<float>(width) / 4.f, 0.75f * static_cast<float>(height)});
     ImGui::Begin("Controls");
+
+    ImGui::Checkbox("Bilinear", &bilinear);
+    ImGui::Checkbox("Operands/Output toggle", &split_view);
 
     if (ImGui::Button("Browse PPM A")) {
         if (const auto path = os::browse_dialog()) {
             ppm1 = *path;
             ppm1Changed(ppm1);
-            opChanged(operation);
         }
     }
     if (!ppm1.empty()) {
@@ -65,50 +56,81 @@ void dip::ui::drawControls(int width, int height) {
         if (const auto path = os::browse_dialog()) {
             ppm2 = *path;
             ppm2Changed(ppm2);
-            opChanged(operation);
         }
     }
     if (!ppm2.empty()) {
         ImGui::Text(ppm2.c_str());
     }
 
-    ImGui::Checkbox("Bilinear", &bilinear);
-    ImGui::Checkbox("Operands/Output toggle", &split_view);
+    if (ImGui::Button("Save Image")) {
+        if (const auto path = os::save_dialog()) {
+            saveClicked(*path);
+        }
+    }
 
+    ImGui::NewLine();
 
+    ImGui::BeginTabBar("tabs");
+
+    if (ImGui::BeginTabItem("Operations")) {
+        drawControls();
+        ImGui::EndTabItem();
+    }
+
+    if (ImGui::BeginTabItem("Histograms")) {
+        drawHistograms();
+        ImGui::EndTabItem();
+    }
+
+    if (ImGui::BeginTabItem("Filter")) {
+        drawFilter();
+        ImGui::EndTabItem();
+    }
+
+    ImGui::EndTabBar();
+
+    ImGui::End();
+
+    drawConsole(width, height);
+
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void dip::ui::drawControls() {
     if (ImGui::RadioButton("Add", operation == add)) {
         operation = add;
         split_view = false;
-        opChanged(operation);
     }
     if (ImGui::RadioButton("Subtract", operation == sub)) {
         operation = sub;
         split_view = false;
-        opChanged(operation);
     }
     if (ImGui::RadioButton("Multiply", operation == mul)) {
         operation = mul;
         split_view = false;
-        opChanged(operation);
     }
     if (ImGui::RadioButton("Negate", operation == negate)) {
         operation = negate;
         split_view = false;
-        opChanged(operation);
     }
     if (ImGui::RadioButton("Log", operation == log)) {
         operation = log;
         split_view = false;
-        opChanged(operation);
     }
     if (ImGui::RadioButton("Gamma", operation == gamma)) {
         operation = gamma;
         split_view = false;
-        opChanged(operation);
     }
     if (ImGui::RadioButton("Closest Component Labels", operation == label)) {
         operation = label;
         split_view = false;
+    }
+    if (ImGui::RadioButton("Fourier Transform", operation == fourier)) {
+        operation = fourier;
+    }
+
+    if (ImGui::Button("Do Operation")) {
         opChanged(operation);
     }
 
@@ -145,43 +167,23 @@ void dip::ui::drawControls(int width, int height) {
         if (ImGui::DragFloat("log_base", &log_base, 0.1f, 1.1f, 20.f)) {
             opChanged(operation);
         }
-    }
+    } else if (operation == fourier) {
+        if (ImGui::DragInt("fft_bins", &fft_bins, 1, 1, 255)) {
 
-    if (ImGui::Button("Save Image")) {
-        if (const auto path = os::save_dialog()) {
-            saveClicked(*path);
         }
     }
-
-    ImGui::End();
 }
 
-void dip::ui::drawControls2(const int width, const int height) {
-    ImGui::SetNextWindowPos({(0.67f)* static_cast<float>(width), 0});
-    ImGui::SetNextWindowSize({ 0.33f * static_cast<float>(width), static_cast<float>(height)*0.75f });
 
-    ImGui::Begin("PP2");
-    ImGui::BeginTabBar("tabs");
-
-    if (ImGui::BeginTabItem("Histograms")) {
-        drawHistograms();
-        ImGui::EndTabItem();
-    }
-
-    if (ImGui::BeginTabItem("Filter")) {
-        drawFilter();
-        ImGui::EndTabItem();
-    }
-
-    ImGui::EndTabBar();
-    ImGui::End();
-}
-
-void dip::ui::drawConsole(int width, int height) {
+void dip::ui::drawConsole(const int width, const int height) {
     static bool on = false;
 
-    ImGui::SetNextWindowPos({0, on ? height * 0.75f : height - ImGui::GetFrameHeight()});
-    ImGui::SetNextWindowSize({static_cast<float>(width), height * 0.25f});
+    auto pos = on
+                   ? static_cast<float>(height) * 0.75f
+                   : static_cast<float>(height) - ImGui::GetFrameHeight();
+
+    ImGui::SetNextWindowPos({0, pos});
+    ImGui::SetNextWindowSize({static_cast<float>(width), static_cast<float>(height) * 0.25f});
 
     ImGui::SetNextWindowCollapsed(!console_visible, ImGuiCond_Once);
     on = ImGui::Begin("Console");
@@ -284,6 +286,24 @@ void dip::ui::drawHistograms() {
 void dip::ui::drawFilter() {
     if (ImGui::InputInt("Kernel Size", &kernel_size, 2, 8)) {
         kernel_size = std::max(kernel_size, 1);
+    }
+
+    ImGui::DragFloat("Gaussian sigma", &gaussian_sigma, 0.01f, 0.f, 5.0f);
+
+    if (ImGui::Button("Run Gaussian Filter")) {
+        run_gaussian(kernel_size, gaussian_sigma);
+    }
+
+    ImGui::InputInt("Sobel Factor", &sobel_factor, 1);
+
+    if (ImGui::Button("Run Sobel")) {
+        run_sobel(sobel_factor);
+    }
+
+    ImGui::InputInt("Unsharp k", &unsharp_k, 1);
+
+    if (ImGui::Button("Run Unsharp")) {
+        run_unsharp(unsharp_k, kernel_size, gaussian_sigma);
     }
 }
 

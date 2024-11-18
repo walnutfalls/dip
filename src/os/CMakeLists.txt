@@ -4,6 +4,6 @@ set(PLATFORM_SOURCE_FILES
 )
 
 add_library(os STATIC ${PLATFORM_SOURCE_FILES})
-target_include_directories(os PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(os PUBLIC ${PROJECT_SOURCE_DIR}/src)
 target_link_libraries(os PUBLIC
         $<$<BOOL:${WIN32}>:xinput winmm>)

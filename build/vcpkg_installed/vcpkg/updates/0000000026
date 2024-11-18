@@ -1,9 +1,0 @@
-Package: boost-core
-Version: 1.85.0
-Port-Version: 2
-Depends: boost-assert, boost-cmake, boost-config, boost-headers, boost-static-assert, boost-throw-exception
-Architecture: x64-windows
-Multi-Arch: same
-Abi: 63643921ec53e32bae0e973b64200a255514f932859cab81b1afdcd51b67ef9c
-Description: Boost core module
-Status: install ok half-installed

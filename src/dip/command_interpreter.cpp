@@ -2,6 +2,8 @@
 #include <filesystem>
 #include <algorithm>
 
+#include "fft.hpp"
+
 
 bool is_ws(const std::string &str) {
     return std::all_of(str.begin(), str.end(), [](unsigned char c) { return std::isspace(c); });
@@ -49,6 +51,52 @@ void dip::command_interpreter::load(const std::string &path) const {
         const auto full = (fs_pwd / path).generic_string();
         _a.get() = cv::imread(full, cv::IMREAD_COLOR);
     }
+}
+
+void dip::command_interpreter::fourier(const cv::Mat &a, cv::Mat &b, int bins) const {
+    cv::Mat f_input;
+    cv::Mat planes[3];
+    cv::split(a, planes);
+    planes[0].convertTo(f_input, CV_32F);
+
+    cv::Mat F = fft_2d(f_input);
+    cv::Mat f = ifft_2d(F);
+
+    // cv::Mat F = dft_fwd_2d_separable(f_input);
+    // cv::Mat f = dft_bak_2d(F, true);
+
+    double minVal, maxVal;
+
+    cv::Mat F_display(F.rows, F.cols, CV_32F, cv::Scalar(0.0f));
+    F.forEach<cv::Vec2f>([&](cv::Vec2f &input, const int* pos) {
+       F_display.at<float>(pos[0], pos[1]) = std::sqrt((input[0] * input[0]) + (input[1] * input[1]));
+    });
+
+    if (bins > 1) {
+        cv::log(F_display + 1, F_display);
+
+        cv::minMaxLoc(F_display, &minVal, &maxVal);
+        b = cv::Mat::zeros(F_display.rows, F_display.cols, CV_8UC3);
+
+        F_display.forEach<float>([&](float &input, const int* pos) {
+            const float normalized = input / static_cast<float>(maxVal);
+            const int bin = static_cast<int>(normalized * bins);
+            const auto color = static_cast<unsigned char>((static_cast<float>(bin) / bins) * 255.f);
+
+            b.at<cv::Vec3b>(pos[0], pos[1]) = cv::Vec3b(color, 0, 255 - color);
+        });
+    } else {
+        cv::log(F_display + 1, F_display);
+        cv::minMaxLoc(F_display, &minVal, &maxVal);
+        F_display.convertTo(b, CV_8U, 255.0 / (maxVal - minVal), -minVal * 255.0 / (maxVal - minVal));
+        cv::cvtColor(b, b, cv::COLOR_GRAY2BGR);
+    }
+
+    shiftDFT(b);
+
+    cv::minMaxLoc(f, &minVal, &maxVal);
+    f.convertTo(_output.get(), CV_8U, 255.0 / (maxVal - minVal), -minVal * 255.0 / (maxVal - minVal));
+    cv::cvtColor(_output.get(), _output.get(), cv::COLOR_GRAY2BGR);
 }
 
 std::string dip::command_interpreter::next_suggested(const std::string &input) {

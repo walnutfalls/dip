@@ -4,11 +4,95 @@
     "type": "split",
     "children": [
       {
-        "id": "d8d25358e9f4e72a",
+        "id": "b84d721fba798ec6",
         "type": "tabs",
         "children": [
           {
-            "id": "8c88bf6f462430d8",
+            "id": "de03d9980e7f6a8c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Convolution.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Convolution"
+            }
+          },
+          {
+            "id": "fd4c03fff9f1033f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Sampling.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Sampling"
+            }
+          },
+          {
+            "id": "3452a4a64c088268",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Watermark Removal/Two Stage Watermark Removal.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Two Stage Watermark Removal"
+            }
+          },
+          {
+            "id": "cbbad8e9ee3e4cf7",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Watermark Removal/Two Stage Watermark Removal.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Two Stage Watermark Removal"
+            }
+          },
+          {
+            "id": "d1c50b9d3fd0ca61",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Fourier Transform.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Fourier Transform"
+            }
+          },
+          {
+            "id": "c6cab1f291b676d8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "FFT.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "FFT"
+            }
+          },
+          {
+            "id": "dc5e879ba909f432",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -16,59 +100,27 @@
                 "file": "README.md",
                 "mode": "source",
                 "source": false
-              }
+              },
+              "icon": "lucide-file",
+              "title": "README"
             }
           },
           {
-            "id": "bffa2c5a2717ea33",
+            "id": "f7b5bbfe3f6df25e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Histogram Equilization.md",
+                "file": "Watermark Removal/Two Stage Watermark Removal.md",
                 "mode": "source",
                 "source": false
-              }
-            }
-          },
-          {
-            "id": "693e12750838a4ef",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Morphological Image Processing.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "b82dd6f297e37f9c",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Pixel Relationships.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "0e7ab9e119bd2088",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Pixel Relationships.md",
-                "mode": "source",
-                "source": false
-              }
+              },
+              "icon": "lucide-file",
+              "title": "Two Stage Watermark Removal"
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 6
       }
     ],
     "direction": "vertical"
@@ -88,7 +140,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
             }
           },
           {
@@ -103,7 +157,9 @@
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-search",
+              "title": "Search"
             }
           },
           {
@@ -111,14 +167,16 @@
             "type": "leaf",
             "state": {
               "type": "bookmarks",
-              "state": {}
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
             }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 299.5
   },
   "right": {
     "id": "5a49ab31ffdb620e",
@@ -134,7 +192,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Histogram Equilization.md",
+                "file": "Fourier Series.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -142,7 +200,9 @@
                 "searchQuery": "",
                 "backlinkCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Fourier Series"
             }
           },
           {
@@ -151,10 +211,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Histogram Equilization.md",
+                "file": "Fourier Transform.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Fourier Transform"
             }
           },
           {
@@ -165,7 +227,9 @@
               "state": {
                 "sortOrder": "frequency",
                 "useHierarchy": true
-              }
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
             }
           },
           {
@@ -174,15 +238,18 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Histogram Equilization.md"
-              }
+                "file": "Fourier Transform.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Fourier Transform"
             }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 769.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -194,14 +261,49 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "bffa2c5a2717ea33",
+  "active": "dc5e879ba909f432",
   "lastOpenFiles": [
+    "README.pdf",
+    "PT3_ANALYSIS.xlsx",
+    "Book 1.xlsx",
+    "images/Pasted image 20241115004248.png",
     "README.md",
-    "Histogram Equilization.md",
+    "images",
+    "images/Pasted image 20241115004902.png",
+    "images/Pasted image 20241115004851.png",
+    "images/Pasted image 20241115004803.png",
+    "images/Pasted image 20241115004752.png",
+    "images/Pasted image 20241115004712.png",
+    "images/Pasted image 20241115004659.png",
+    "images/Pasted image 20241115004642.png",
+    "images/Pasted image 20241115004626.png",
+    "images/Pasted image 20241115004300.png",
+    "README.md~",
+    "Project 3.md",
+    "FFT.md",
+    "Fourier Transform.md",
+    "Euler's Formula and Identity.md",
+    "Fourier Series.md",
+    "Convolution.md",
+    "HW7.md",
+    "Watermark Removal/Backpropagation in Multi Layer Perceptron.md",
+    "Watermark Removal/Convolutional Neural Network.md",
+    "Watermark Removal/U-net.md",
+    "Watermark Removal/Faster RCNN.md",
+    "Watermark Removal/Feed Forward Neural Network.md",
+    "Watermark Removal/YOLO.md",
+    "Watermark Removal/scratch.md",
+    "Watermark Removal/Two Stage Watermark Removal.md",
+    "Watermark Removal/RetinaNet.md",
+    "Watermark Removal",
+    "HW6.md",
+    "Discrete Fourier Transform.md",
+    "Sampling.md",
+    "Spatial Filtering.md",
     "Pixel Relationships.md",
     "Morphological Image Processing.md",
-    "README 1.md",
-    "README.md~",
-    "Welcome.md"
+    "Histogram Equilization.md",
+    "HW4.md",
+    "Pixel Relationships.md~"
   ]
 }

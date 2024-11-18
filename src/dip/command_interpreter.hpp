@@ -32,6 +32,8 @@ namespace dip {
 
         void load(const std::string& path) const;
 
+        void fourier(const cv::Mat &a, cv::Mat &b, int bins) const;
+
         [[nodiscard]] std::string next_suggested(const std::string& input);
 
         std::optional<operation> interpret_command(const std::string &command);
@@ -45,7 +47,6 @@ namespace dip {
         void load_operands(size_t loc);
 
         [[nodiscard]] std::string qualify(const std::string &path) const;
-
 
         std::reference_wrapper<cv::Mat> _a;
         std::reference_wrapper<cv::Mat> _output;

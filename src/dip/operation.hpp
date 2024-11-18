@@ -8,6 +8,7 @@ namespace dip {
         negate,
         log,
         gamma,
-        label
+        label,
+        fourier
     };
 }
