@@ -155,7 +155,7 @@ cv::Mat dip::dft_bak_2d(cv::Mat &F, const bool real_only) {
     return f;
 }
 
-cv::Mat dip::dft_fwd_2d_separable(cv::Mat& f) {
+cv::Mat dip::dft_fwd_2d_separable(const cv::Mat& f) {
     const int M = f.rows;
     const int N = f.cols;
 
@@ -167,12 +167,19 @@ cv::Mat dip::dft_fwd_2d_separable(cv::Mat& f) {
     for (int v = 0; v < F.rows; v++) {
         F.row(v).copyTo(row_buffer);
         dft_fwd_1d_complex(row_buffer).copyTo(F.row(v));
+        std::cout << F << std::endl;
     }
 
     for (int u = 0; u < F.cols; u++) {
         cv::transpose(F.col(u), row_buffer);
         cv::transpose(dft_fwd_1d_complex(row_buffer), F.col(u));
+        std::cout << F << std::endl;
     }
+
+    cv::Mat spectrum(F.rows, F.cols, CV_32F);
+    F.forEach<cv::Vec2f>([&](cv::Vec2f& f_xy, const int* pos_m) {
+       spectrum.at<float>(pos_m[0], pos_m[1]) = cv::sqrt(f_xy[0] * f_xy[0] + f_xy[1] * f_xy[1]);
+    });
 
     return F;
 }

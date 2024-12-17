@@ -59,7 +59,7 @@ int main() {
             m.rows,
             m.cols,
             (m.step & 3) ? 1 : 4,
-            m.step/m.elemSize());
+            static_cast<gl::GLint>(m.step/m.elemSize()));
     });
     auto bListener = app.bChanged.connect([&](const cv::Mat& m) {
         gpu_textures[1].rebuffer(
@@ -67,7 +67,7 @@ int main() {
             m.cols,
             m.rows,
             (m.step & 3) ? 1 : 4,
-            m.step/m.elemSize());
+            static_cast<gl::GLint>(m.step/m.elemSize()));
     });
     auto outListener = app.resultChanged.connect([&](const cv::Mat& m) {
         gpu_textures[2].rebuffer(
@@ -75,7 +75,7 @@ int main() {
             m.cols,
             m.rows,
             (m.step & 3) ? 1 : 4,
-            m.step/m.elemSize());
+            static_cast<gl::GLint>(m.step/m.elemSize()));
     });
 
 

@@ -69,10 +69,10 @@ namespace dip {
         }
 
         {
-            cv::Mat matrix = (cv::Mat_<float>(4, 4) <<  10,  10,  15,  15,
-                                                   10,  15,  10,  15,
-                                                  10, 10, 15, 15,
-                                                  10, 10, 10, 15);
+            cv::Mat matrix = (cv::Mat_<float>(4, 4) <<  35, 20,  35,  20,
+                                                        35, 35,  20,  20,
+                                                        100, 110, 120, 130,
+                                                        45, 71, 84, 63);
 
             cv::Mat matrix_dft = dft_fwd_2d(matrix);
             std::string e = matToString<float, 2>(matrix_dft);
@@ -233,6 +233,7 @@ void dip::app::handle_op(const operation op) {
                 compute_histograms();
             }
         }
+        break;
         case fourier: {
             interpreter.fourier(_state.mat1, _state.mat2, _ui.fft_bins);
 

@@ -1,6 +1,5 @@
 #include "fft.hpp"
 
-#include <iostream>
 #include <vector>
 #include <complex>
 #include <cmath>
@@ -68,7 +67,7 @@ void dip::four1(std::vector<std::complex<double> > &data, int sign) {
 }
 
 
-void fft2D(std::vector<std::vector<std::complex<double>>> &data, int sign) {
+void fft2D(std::vector<std::vector<std::complex<double>>> &data) {
     const auto N = data.size();
     const dip::twiddle_lookup W(N);
 
@@ -109,7 +108,7 @@ cv::Mat dip::fft_2d(const cv::Mat &image) {
         }
     }
 
-    fft2D(rows, 1);
+    fft2D(rows);
 
     cv::Mat F_out(M, M, CV_32FC2);
     for (int row = 0; row < M; ++row) {
@@ -134,7 +133,7 @@ cv::Mat dip::ifft_2d(cv::Mat F) {
         }
     }
 
-    fft2D(rows, -1);
+    fft2D(rows);
 
     cv::Mat f_out(M, M, CV_32F);
     f_out.forEach<float>([&](float& val, const int* pos) {
@@ -197,7 +196,7 @@ void dip::twiddle_lookup::four1(std::vector<std::complex<double>> &data) const {
         size_t m = K;
         while (m >= 1 && j >= m) {
             j -= m;
-            m >>= 1;
+            m /= 2;
         }
         j += m;
     }

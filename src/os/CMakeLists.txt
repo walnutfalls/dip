@@ -1,6 +1,7 @@
 set(PLATFORM_SOURCE_FILES
         sleeper.cpp
         browse_dialog.cpp
+        portable-file-dialogs.h
 )
 
 add_library(os STATIC ${PLATFORM_SOURCE_FILES})

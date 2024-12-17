@@ -61,7 +61,7 @@ std::optional<std::string> BasicFileOpen(const IID & rclsid)
                 hr = pfd->SetFileTypes(ARRAYSIZE(c_rgSaveTypes), c_rgSaveTypes);
                 if (SUCCEEDED(hr))
                 {
-                    // Set the selected file type index to Word Docs for this example.
+                    // Set the selected file type index to PPM for this example.
                     hr = pfd->SetFileTypeIndex(INDEX_PPM);
                     if (SUCCEEDED(hr))
                     {

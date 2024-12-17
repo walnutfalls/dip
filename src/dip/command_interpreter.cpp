@@ -62,9 +62,6 @@ void dip::command_interpreter::fourier(const cv::Mat &a, cv::Mat &b, int bins) c
     cv::Mat F = fft_2d(f_input);
     cv::Mat f = ifft_2d(F);
 
-    // cv::Mat F = dft_fwd_2d_separable(f_input);
-    // cv::Mat f = dft_bak_2d(F, true);
-
     double minVal, maxVal;
 
     cv::Mat F_display(F.rows, F.cols, CV_32F, cv::Scalar(0.0f));

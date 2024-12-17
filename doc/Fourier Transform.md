@@ -53,7 +53,7 @@ An impulse located at an arbitrary point $t_0$ denoted $\sigma(t-t_0)$ lets us s
 $$
 \int_{-\infty}^{\infty} f(t) \delta(t - t_0) dt = f(t_0)
 $$
-Note that this is shifting the input space, kind of like [Fourier Series] shifts the series using a integrand factor, to make every part of the sum average to 0 by undergoing a whole number of rotations, except $C_n$ which now integrates to some constant. 
+Note that this is shifting the input space, kind of like [[Fourier Series]] shifts the series using a integrand factor, to make every part of the sum average to 0 by undergoing a whole number of rotations, except $C_n$ which now integrates to some constant. 
 
 An impulse train is the sum of infinitely many impulses $\Delta T$ units apart:
 $$
@@ -71,7 +71,7 @@ $$
 }
 $$
 $\mu$ is a continuous variable, and as t is integrated out, we can say $\mathcal{F}(f(t)) = F(\mu)$
-Note that the exponent is **negative** (as it also is in [Fourier Series])
+Note that the exponent is **negative** (as it also is in [[Fourier Series]])
 $$
 \huge{
 	\mathcal{F}(\mu) = \int_{-\infty}^{\infty} f(t)e^{-j2 \pi \mu t} dt
